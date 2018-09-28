@@ -13,17 +13,28 @@ class PagesController extends Controller
 {
     //public houd in dat je het buiten de class kan gebruiken
     public function index(){
+        $title = 'Welcome to Laravel!';
+
         //Het kijkt nu naar de view in pages/index
-        return view('pages/index');
+        return view('pages/index', compact('title'));                           //Verwerkt title in index-page door "compact"
+        
         //return 'INDEX';
     }
 
     public function about(){
-        return view('pages/about');
+        $title = 'About Us';
+        return view('pages/about') -> with('title',$title);
     }
     
     //Service Page
     public function services(){
-        return view('pages/services');
+
+        //Array of information
+        $data = array(
+            'title' => 'Services'
+        );
+
+        // return view('pages/services');
+        return view('pages/services') -> with($data);
     }
 }

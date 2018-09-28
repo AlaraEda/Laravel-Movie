@@ -11,7 +11,10 @@
     <body>
         <!-- 
         Installeer extentie voor VSCode
-        ext install laravel-blade-->
+        ext install laravel-blade
+        
+        De "Pages" krijgen allemaal deze lay-out.
+        -->
         @yield('content')
     </body>
 </html>
