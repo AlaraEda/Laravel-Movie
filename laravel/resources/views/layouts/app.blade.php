@@ -9,12 +9,17 @@
 
     </head>
     <body>
-        <!-- 
-        Installeer extentie voor VSCode
-        ext install laravel-blade
         
-        De "Pages" krijgen allemaal deze lay-out.
-        -->
-        @yield('content')
+        @INCLUDE('inc/navbar')
+        
+        <div class= "container">
+            <!-- 
+            Installeer extentie voor VSCode
+            ext install laravel-blade
+            
+            De "Pages" krijgen allemaal deze lay-out.
+            -->
+            @yield('content')
+        </div>
     </body>
 </html>

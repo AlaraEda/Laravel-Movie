@@ -9,13 +9,13 @@
 
         <!--Als meer dan 0 service data -->
         @if(count($services)>0)
-                <ul>
+                <ul class="list-group">
 
                 <!-- Loop door alle data van "services" heen-->
                 @foreach($services as $service)
 
                         <!-- Laat data zien -->
-                        <li>{{$service}}</li>
+                        <li class="list-group-item">{{$service}}</li>
                         
                 @endforeach
 
