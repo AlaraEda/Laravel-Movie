@@ -39,4 +39,5 @@ Route::get('/services', 'PagesController@services');
 
 //We want to map posts to a controller;
 //Doing this creates all the routes we need for the controller
+//Alle functies van de PostsController hebben nu een route
 Route::resource('posts', 'PostsController'); 
