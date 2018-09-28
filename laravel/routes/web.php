@@ -28,9 +28,11 @@ got to a certain controller function & then return the view.
 php artisan make:controller PagesController*/
 
 //Door dit te doen ga je naar view van pages
-Route::get('/about', function () {
-    return view('pages/about');         //Je kan ook pages.about typen
-});
+// Route::get('/about', function () {
+//     return view('pages/about');         //Je kan ook pages.about typen
+// });
 
 //De functie naam is "index" op de PagesController. Door dit te doen is het geconnecteerd met de Controller's Method
 Route::get('/', 'PagesController@index');
+Route::get('/about', 'PagesController@about');
+Route::get('/services', 'PagesController@services');
