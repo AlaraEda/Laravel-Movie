@@ -36,3 +36,7 @@ php artisan make:controller PagesController*/
 Route::get('/', 'PagesController@index');
 Route::get('/about', 'PagesController@about');
 Route::get('/services', 'PagesController@services');
+
+//We want to map posts to a controller;
+//Doing this creates all the routes we need for the controller
+Route::resource('posts', 'PostsController'); 
