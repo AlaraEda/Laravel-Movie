@@ -31,10 +31,11 @@ class PagesController extends Controller
 
         //Array of information
         $data = array(
-            'title' => 'Services'
+            'title' => 'Services',
+            'services' => ['Web Design', 'Programming','SEO']
         );
 
-        // return view('pages/services');
+        //Word doorgestuurd naar pages/services en neem mee de array-informatie van $data
         return view('pages/services') -> with($data);
     }
 }
