@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Post;
+use App\Post; //Zodat Post.php gebruikt word
 
 class PostsController extends Controller
 {
@@ -14,8 +14,12 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return Post::all(); //Fetch all the data in post
-        return view('posts/index');
+        
+        //$post bevat alle database gegevens van post tabel
+        $posts = Post::all();
+        //Post variabele word meegegeven aan de view (en zichtbaar gemaakt)
+        return view('posts/index')->with('posts', $posts);
+        //index.blade.php (de index van posts) word weergeven
     }
 
     /**
