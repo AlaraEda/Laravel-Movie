@@ -26,7 +26,7 @@ class PostsController extends Controller
             //$posts = DB::select('SELECT * FROM posts');
 
         //Maar 10 post per pagina
-        $posts = Post::orderBy('title','desc')->paginate(10);
+        $posts = Post::orderBy('created_at','desc')->paginate(10);
 
         //Post variabele word meegegeven aan de view (en zichtbaar gemaakt)
         return view('posts/index')->with('posts', $posts);
@@ -41,7 +41,8 @@ class PostsController extends Controller
      */
     public function create()
     {
-        //
+        //wanneer je /posts/create in je url typt kom je hier.
+        return view('posts/create');
     }
 
     /**
@@ -52,7 +53,23 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        /* we stoppen de request variabele die is gestuurd met de "submit
+        die daarna de functie parameters staat door.
+        
+        In de array schrijven we de regels waar de form zich aan moet houden.*/
+        $this ->validate($request,[
+            'title' => 'required',
+            'body' => 'required'
+        ]);
+
+        // Create Post (dit kunnen we doen omdat we App\Post hebben gebruikt boven aan de pagina)
+        $post = new Post;                                           //Nieuwe post is aangemaakt
+        $post -> title = $request->input('title');                  //Schrijf in de nieuwe post de gegeven titel
+        $post -> body = $request->input('body');                    //Schrijf in de nieuwe post de gegeven body
+        $post -> save();                                            //Save de gegevens van de nieuwe post in de database
+
+        return redirect('/posts')->with('success', 'Post Created');//doorgestuurd naar /posts met de succes-message
+        
     }
 
     /**

@@ -10,9 +10,11 @@
     </head>
     <body>
         
-        @INCLUDE('inc/navbar')
+        @include('inc/navbar')
         
         <div class= "container">
+            <br>
+            @include('inc/messages')
             <!-- 
             Installeer extentie voor VSCode
             ext install laravel-blade
@@ -21,5 +23,11 @@
             -->
             @yield('content')
         </div>
+
+        <!--Zodat ik in me create.blade.app de article-ckeditor kan gebruiken in me form -->
+        <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
+        <script>
+            CKEDITOR.replace( 'article-ckeditor' );
+         </script>
     </body>
 </html>
