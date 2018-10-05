@@ -66,6 +66,8 @@ class PostsController extends Controller
         $post = new Post;                                           //Nieuwe post is aangemaakt
         $post -> title = $request->input('title');                  //Schrijf in de nieuwe post de gegeven titel
         $post -> body = $request->input('body');                    //Schrijf in de nieuwe post de gegeven body
+        $post -> user_id = auth()->user()->id;                       //We zetten geen 'request' want dit komt niet van de form.
+        //auth()->user()->id; zal de momenteel ingelogde user nemen en dat nummer in de user_id stoppen en opslaan.
         $post -> save();                                            //Save de gegevens van de nieuwe post in de database
 
         return redirect('/posts')->with('success', 'Post Created');//doorgestuurd naar /posts met de succes-message
@@ -121,7 +123,6 @@ class PostsController extends Controller
         $post -> save();                                            //Save de gegevens van de nieuwe post in de database
 
         return redirect('/posts')->with('success', 'Post Updated');//doorgestuurd naar /posts met de succes-message
-        
     }
 
     /**

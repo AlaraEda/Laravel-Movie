@@ -42,3 +42,6 @@ Route::get('/services', 'PagesController@services');
 //Alle functies van de PostsController hebben nu een route
 //Wanneer je /Posts intypt bij url word je doorgestuurd naar PostsController.php
 Route::resource('posts', 'PostsController'); 
+Auth::routes();
+
+Route::get('/dashboard', 'DashboardController@index');
