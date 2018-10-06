@@ -16,4 +16,10 @@ class Post extends Model
     //Timestamps (het is standaard true, maar als we timestamps niet wouden 
     //konden we kiezen voor false)
     public $timestamps = true;
+
+    //Creating a relationship between post and user
+    //App\User is de model van de user oftewel de file User.php
+    public function user(){                                             //Wat je hier zegt is dat een Post een relatie heeft met een User
+        return $this->belongsTo('App\User');                            //Één post behoort toe aan één user.
+    }
 }

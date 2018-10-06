@@ -34,11 +34,12 @@
             @yield('content')
         </div>
         
-        <!--Zodat ik in me create.blade.app de article-ckeditor kan gebruiken in me form
+        <!--Zodat ik in me create.blade.app de article-ckeditor kan gebruiken in me form 
         <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
         <script>
             CKEDITOR.replace( 'article-ckeditor' );
-        </script> -->
+        </script> 
+        -->
     </div>
 </body>
 </html>

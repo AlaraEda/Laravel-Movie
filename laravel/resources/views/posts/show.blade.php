@@ -1,5 +1,7 @@
 @extends('layouts.app')
+
 <!-- Wat je te zien krijgt wanneer je op een Post klikt -->
+
 @section('content')
     <a href="/posts" class="btn btn-default">Go Back</a>
     <h1>{{$post->title}}</h1>
@@ -10,7 +12,7 @@
         {!!$post->body!!}
     </div>
     <hr><!--Linebreak -->
-    <small>Written on {{$post->created_at}}</small>
+<small>Written on {{$post->created_at}} by {{$post->user->name}}</small>
     <hr>
     <a href="/posts/{{$post->id}}/edit" class="btn btn-default">Edit</a>
 
