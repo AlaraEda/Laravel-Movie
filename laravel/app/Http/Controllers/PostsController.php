@@ -5,8 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Post; //Zodat Post.php gebruikt word
 use DB; //SQL word gebruikt inplaats van Eloquent
+
 class PostsController extends Controller
 {
+        /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        //Alles word geblokkeerd als de User niet geauthenticeerd is. 
+        $this->middleware('auth',['except'=>['index','show']]);                        //behalve de index-view (de lijst van blogposts) & de show-view(het laten zien van indivduele posts)
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -98,6 +110,11 @@ class PostsController extends Controller
     public function edit($id)
     {
         $post = Post::find($id);
+
+        //Check for correct user
+        if(auth()->user()->id !=$post->user_id){                                //Als user id niet hetzelfde is als post id
+            return redirect('/posts')->with('error', 'Unauthorized Page');     //Redirect naar post
+        }
         return view('posts.edit')->with('post', $post);
     }
 
@@ -135,6 +152,12 @@ class PostsController extends Controller
     {
         //Find the post doorgebruik van de post-id
         $post = Post::find($id);
+        
+        //Check for correct user(zodat niet de verkeerde user je post kan deleten)
+        if(auth()->user()->id !=$post->user_id){                                //Als user id niet hetzelfde is als post id
+            return redirect('/posts')->with('error', 'Unauthorized Page');     //Redirect naar post
+        }
+        
         $post->delete();
 
         //Terug sturen naar posts-url

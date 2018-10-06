@@ -16,6 +16,7 @@ class DashboardController extends Controller
      */
     public function __construct()
     {
+        //Alles in de dashboard word geblokkeerd als de User niet geauthenticeerd is. 
         $this->middleware('auth');
     }
 
