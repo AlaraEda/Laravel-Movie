@@ -1,25 +1,20 @@
 <?php
-//This is our model
+//This is Post.php model
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    //Table Name (standaard is het gwn post)
-    protected $table = 'posts';
+    protected $table = 'posts';                         //Table Name (standaard is het gwn post)
 
-    //Primary Key (standaard is het gwn id maar je kunt het hie
-    //verandere naar item_id ofzo )
-    public $primaryKey = 'id';
+    public $primaryKey = 'id';                          //Primary Key (standaard is het gwn id maar je kunt het hier
+                                                        //verandere naar item_id ofzo )
 
-    //Timestamps (het is standaard true, maar als we timestamps niet wouden 
-    //konden we kiezen voor false)
-    public $timestamps = true;
+    public $timestamps = true;                          //Timestamps (het is standaard true, maar als we timestamps niet wouden 
+                                                        //konden we kiezen voor false)
 
-    //Creating a relationship between post and user
-    //App\User is de model van de user oftewel de file User.php
-    public function user(){                                             //Wat je hier zegt is dat een Post een relatie heeft met een User
-        return $this->belongsTo('App\User');                            //Één post behoort toe aan één user.
+    public function user(){                             //Creeer een relatie tussen post & user tabel                                           
+        return $this->belongsTo('App\User');            //Één post behoort toe aan één user.
     }
 }

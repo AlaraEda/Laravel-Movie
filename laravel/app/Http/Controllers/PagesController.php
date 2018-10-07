@@ -1,26 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
-
-//Request naar libary is aangebracht
-use Illuminate\Http\Request;
-
 /*Controller is gecreerd met de naam "pagesController
 wat een extention is van de orginele Controller.php */
 
-//Elke controller die je maakt moet Controller extenden anders kan het niks.
-class PagesController extends Controller
-{
-    //public houd in dat je het buiten de class kan gebruiken
-    public function index(){
-        $title = 'Welcome to Laravel!';
+namespace App\Http\Controllers;
 
-        //Het kijkt nu naar de view in pages/index
-        return view('pages/index', compact('title'));                           //Verwerkt title in index-page door "compact"
-        
-        //return 'INDEX';
+use Illuminate\Http\Request;                                            //Request naar libary is aangebracht
+
+class PagesController extends Controller                                //Elke controller die je maakt moet Controller extenden anders kan het niks.
+{
+    //Home-Page
+    public function index(){                                            //public houd in dat je het buiten de class kan gebruiken
+        $title = 'Welcome to MovieList!';
+        return view('pages/index', compact('title'));                   //Verwerkt title in index-page door "compact"
     }
 
+    //About-Page
     public function about(){
         $title = 'About Us';
         return view('pages/about') -> with('title',$title);

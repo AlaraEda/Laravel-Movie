@@ -1,11 +1,9 @@
 <?php
-//Controller voor als je bent ingelogd.
+//Controller voor als je bent ingelogd & je beschikt over een dashboard.
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-//Breng the User model in bij de dashboard control zodat er gebruikt van kan worden gemaakt bij index()
-use App\User;
+use App\User;                                                    //Maak gebruik van User.php model zodat je index()-functie kan gebruiken.
 
 class DashboardController extends Controller
 {
@@ -15,9 +13,8 @@ class DashboardController extends Controller
      * @return void
      */
     public function __construct()
-    {
-        //Alles in de dashboard word geblokkeerd als de User niet geauthenticeerd is. 
-        $this->middleware('auth');
+    { 
+        $this->middleware('auth');                               //Blokkeer dashboard-data wanneer User niet ingelogt.
     }
 
     /**
