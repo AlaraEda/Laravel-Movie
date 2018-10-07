@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+<!-- Het eerste wat je ziet als je op Posts klikt -->
+
 @section('content')
     <h1>Posts</h1>
     <br>
@@ -8,9 +10,16 @@
         @foreach($posts as $post)
             <!-- Bootstrap class= well -->
             <div class="well">
-                <!-- De "show" functie word geladen maar er is daar niks.-->
-                <h3><a href="/posts/{{$post->id}}">{{$post->title}}</a></h3>
-                <small>Written on {{$post->created_at}}by {{$post->user->name}}</small>
+                <div class="row">
+                    <div class="col-md-4 col-sm-4">
+                        <img style="width:100%" src="/storage/cover_images/{{$post->cover_image}}">
+                    </div>
+                    <div class="col-md-8 col-sm-8">
+                        <!-- De "show" functie word geladen maar er is daar niks.-->
+                        <h3><a href="/posts/{{$post->id}}">{{$post->title}}</a></h3>
+                        <small>Written on {{$post->created_at}}by {{$post->user->name}}</small>
+                    </div>
+                </div>
             </div>
         @endforeach
 

@@ -6,7 +6,7 @@
     <!-- De actie word doorgestuurd naar de functie update van PostController
     Het staat in een array omdat het belangerijk is om te weten welke post (met welke id)
     word geupdate-->
-    {!! Form::open(['action'=>['PostsController@update', $post->id], 'method'=>'POST']) !!}
+    {!! Form::open(['action'=>['PostsController@update', $post->id], 'method'=>'POST','enctype'=>'multipart/form-data']) !!}
         <div class="form-group">
             <!-- De labelnaam is title. De echte tekst word Title-->
             {{Form::label('title', 'Title:')}}
@@ -20,14 +20,14 @@
            -->
             {{Form::label('body', 'Body:')}}
             {{Form::textarea('body', $post->body,['id'=>'article-ckeditor','class'=> 'form-control', 'placeholder'=>'Body Text'])}}
-        
         </div>
 
-        {{Form::hidden('_method','PUT')}}
-        
-        <!--
-            'Submit' is de value. Wanneer we op "submit" klikken komt er een post request naar de store functie van de controllers.
-        -->
-        {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+        <div class="form-group">
+            <!-- Cover_image is hoe de file heet. Wanneer je een file stuurt moet je een ink-type -->
+            {{Form::file('cover_image')}} 
+        </div>
+
+        {{Form::hidden('_method','PUT')}}                          <!-- 'Submit' is de value. Wanneer we op "submit" klikken komt er een post -->
+        {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}   <!-- request naar de store functie van de controllers.-->
     {!! Form::close() !!}
 @endsection
