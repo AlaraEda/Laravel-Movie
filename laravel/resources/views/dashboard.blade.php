@@ -18,7 +18,7 @@
 
                         @if (count($posts)>0)
                             <table class="table table-striped">
-                                <!-- Loop door alle posts van de user -->
+                                
                                 <tr>
                                     <th>Title</th>
                                     <th></th>

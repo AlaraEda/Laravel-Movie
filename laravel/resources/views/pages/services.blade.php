@@ -1,10 +1,7 @@
-<!--basic html -->
 @extends('layouts.app')
 
-<!--Waar in de layouts.app de tekst gaat komen == content -->
+<!-- Content-Services die in Layouts gaat -->
 @section('content')
-        <!-- pagescontroller.php -->
-
         <h1>{{$title}}</h1>
 
         <!--Als meer dan 0 service data -->

@@ -13,13 +13,12 @@ class AddCoverImageToPosts extends Migration
      */
     public function up()
     {
-        //Tabel dat aangepast gaat worden is "posts"
+        //Tabel "Posts" aanpassen
         Schema::table('posts', function($table){
-            //De kolom gaat heten cover_image en zal gevuld worden met integers.
-            $table->string('cover_image');
+            $table->string('cover_image');                                      //De kolom heet cover_image & zal gevuld worden met integers.
         });
-        //Run the migration's door Terminal op te starten.
-        //php artisan migrate om het in je phpmyadmin te krijgen.
+        /*Run the migration's door Terminal op te starten.
+        php artisan migrate om het in je phpmyadmin te krijgen. */
     }
 
     /**
@@ -30,8 +29,7 @@ class AddCoverImageToPosts extends Migration
     public function down()
     {
         Schema::table('posts', function($table){
-            //De kolom gaat heten cover_image en zal gevuld worden met integers.
-            $table->dropColumn('cover_image');
+            $table->dropColumn('cover_image');                                   //De kolom gaat heten cover_image en zal gevuld worden met integers.
         });
     }
 }

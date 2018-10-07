@@ -9,39 +9,41 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
+| URL'S, het systeem begint hier.
+|
 */
 
-Route::get('/', function () {
+/* 
+|------------------------------------------------------------------------
+|A person never wants to return a view from their route; 
+|Wat you want is to create a controller than set the route to 
+|go to a certain controller function & then return the view.
+|
+|php artisan make:controller PagesController
+|-------------------------------------------------------------------------
+
+Route::get('/bla', function () {
     return view('welcome');
 });
 
-/*Dynamic paramaters Route
-Als je "http://movie.work/users/Alara" intypt krijg je "This is user Alara te lezen" */
-Route::get('/users/{id}', function ($id) {
-    return 'This is user '.$id;        
+
+Route::get('/users/{id}', function ($id) {                  //Dynamic paramaters Route
+    return 'This is user '.$id;                             //Als je "http://movie.work/users/Alara" intypt krijg je 
+                                                            //"This is user Alara te lezen"      
 });
 
-/* A person never wants to return a view from their route; 
-Wat you want is to create a controller than set the route to 
-got to a certain controller function & then return the view.
 
-php artisan make:controller PagesController*/
+Route::get('/about', function () {                          //Door dit te doen ga je naar view van about-page
+      return view('pages/about');                           //Je kan ook pages.about typen
+});
 
-//Door dit te doen ga je naar view van pages
-// Route::get('/about', function () {
-//     return view('pages/about');         //Je kan ook pages.about typen
-// });
+*/
 
-//De functie naam is "index" op de PagesController. Door dit te doen is het geconnecteerd met de Controller's Method
-Route::get('/', 'PagesController@index');
-Route::get('/about', 'PagesController@about');
+Route::get('/', 'PagesController@index');                   //De functie naam is "index" op de PagesController die 
+Route::get('/about', 'PagesController@about');              //functie word opgeroepen.
 Route::get('/services', 'PagesController@services');
 
-//We want to map posts to a controller;
-//Doing this creates all the routes we need for the controller
-//Alle functies van de PostsController hebben nu een route
-//Wanneer je /Posts intypt bij url word je doorgestuurd naar PostsController.php
-Route::resource('posts', 'PostsController'); 
+Route::resource('/posts', 'PostsController');           //vai /posts-route kan je nu alle functies van PostsController gebruiken.
 Auth::routes();
 
 Route::get('/dashboard', 'DashboardController@index');

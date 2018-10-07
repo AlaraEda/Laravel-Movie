@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;     //Storage of Photo's library
-use App\Post;                               //Zodat Post.php gebruikt word
+use App\Post;                               //Zodat Post.php gebruikt wordt
 use DB;                                     //SQL word gebruikt inplaats van Eloquent
 
 class PostsController extends Controller
@@ -16,8 +16,8 @@ class PostsController extends Controller
      */
     public function __construct()
     {
-        //Alles word geblokkeerd als de User niet geauthenticeerd is. 
-        $this->middleware('auth',['except'=>['index','show']]);                        //behalve de index-view (de lijst van blogposts) & de show-view(het laten zien van indivduele posts)
+                                                                            //Blokkeer dashboard-data wanneer User niet ingelogt. 
+        $this->middleware('auth',['except'=>['index','show']]);             //behalve de index-view (de lijst van blogposts) & de show-view(het laten zien van indivduele posts)
     }
 
     /**
@@ -25,26 +25,18 @@ class PostsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-        //$posts = Post::all();                                                         //$post bevat alle database gegevens van post tabel
-        
-        //Posts worden geordend bij de titel desc is van hoog naar laag.
-            //$posts = Post::orderBy('title','desc')->get();                           //esc is van laag naar hoog
+        //$posts = Post::all();                                              //$post bevat alle database gegevens van post-tabel.
+        //$posts = Post::orderBy('title','desc')->get();                     //Posts worden geordend bij de titel desc is van hoog naar laag.
+                                                                             //esc is van laag naar hoog.
+        //$posts = Post::orderBy('title','desc')->take(2)->get();            //Laat maar 1 post gegeven zien.
+        //$posts = DB::select('SELECT * FROM posts');                        //SQL.
 
-        //Laat maar 1 post gegeven zien
-            //$posts = Post::orderBy('title','desc')->take(2)->get(); 
+        $posts = Post::orderBy('created_at','desc')->paginate(10);           //Maar 10 Posts per pagina.
         
-        //SQL
-            //$posts = DB::select('SELECT * FROM posts');
-
-        //Maar 10 post per pagina
-        $posts = Post::orderBy('created_at','desc')->paginate(10);
-
-        //Post variabele word meegegeven aan de view (en zichtbaar gemaakt)
-        return view('posts/index')->with('posts', $posts);
-        
-        //index.blade.php (de index van posts) word weergeven
+        return view('posts/index')->with('posts', $posts);                   //Post-variabele word meegegeven aan de view.
     }
 
     /**
@@ -54,8 +46,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        //wanneer je /posts/create in je url typt kom je hier.
-        return view('posts/create');
+        return view('posts/create');                                          //Wanneer je /posts/create in je URL typt kom je hier.
     }
 
     /**
@@ -64,19 +55,22 @@ class PostsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    //Data Invoeger
     public function store(Request $request)
     {
-        /* we stoppen de request variabele die is gestuurd met de "submit
-        die daarna de functie parameters staat door.
+        /* we stoppen de request die naar de PostsController 
+        is gestuurd doordat iemand op de "submit"-button
+        door in de functie doormiddel van de parameters.*/
         
-        In de array schrijven we de regels waar de form zich aan moet houden.*/
-        $this ->validate($request,[
+        //Validatie
+        $this ->validate($request,[                                           //In de array staan de regels waar de form zich aan moet houden.
             'title' => 'required',
             'body' => 'required',
-            'cover_image'=> 'image |nullable|max:1999'              //File has to be an 'image', nullable houd in dat je niet perse een image hoeft te uploaden, max:1999 is de maximale grootte van de image
+            'cover_image'=> 'image |nullable|max:1999'                        //File moet of een 'image' of niks of max:1999 groot zijn
         ]);
 
-        //Handle File Upload
+        //File Upload Handeling
         if($request->hasFile('cover_image')){                                                           //Als de user een file upload word de naam van de image cover_image...
             
             //Get filename with the extension                                                           //Vraag om file met de naam 'cover_image'
@@ -99,17 +93,18 @@ class PostsController extends Controller
         }
 
 
-        // Create Post (dit kunnen we doen omdat we App\Post hebben gebruikt boven aan de pagina)
-        $post = new Post;                                           //Nieuwe post is aangemaakt
-        $post -> title = $request->input('title');                  //Schrijf in de nieuwe post de gegeven titel
-        $post -> body = $request->input('body');                    //Schrijf in de nieuwe post de gegeven body
-        $post -> user_id = auth()->user()->id;                       //We zetten geen 'request' want dit komt niet van de form.
-        //auth()->user()->id; zal de momenteel ingelogde user nemen en dat nummer in de user_id stoppen en opslaan.
-        $post->cover_image = $fileNameToStore;                       //Dus in de tabel word het opgeslagen als of noimage.jpg of als de echte naam van de file
-        $post -> save();                                            //Save de gegevens van de nieuwe post in de database
+        //Create-Post
+        $post = new Post;                                                      //New Post; kunnen we doen omdat we App\Post(post.php model) hebben staan boven aan de pagina)
+        $post -> title = $request->input('title');                             //Schrijf in de nieuwe post de gegeven titel
+        $post -> body = $request->input('body');                               //Schrijf in de nieuwe post de gegeven body
 
-        return redirect('/posts')->with('success', 'Post Created');//doorgestuurd naar /posts met de succes-message
+        $post -> user_id = auth()->user()->id;                                 //We zetten geen 'request' want dit komt niet van de form.
+                                                                               //Sla het nummer(id) van de momenteel ingelogde user op in User_id
         
+        $post->cover_image = $fileNameToStore;                                 //In tabel word opgeslagen noimage.jpg of als de echte naam van de file
+        $post -> save();                                                       //Save de gegevens van de nieuwe post in database
+
+        return redirect('/posts')->with('success', 'Post Created');            //Stuur data door naar /posts met de succes-message
     }
 
     /**
@@ -120,11 +115,10 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        //Post is ons model. En hij vind de post doormiddel van het id.
-        //Dus wanneer je/posts/1 schrijft bij je url krijg je alle posts gegevens die gelinkt staan aan id=1
-        //return Post::find($id)
-        $post = Post::find($id);
-        return view('posts.show')->with('post', $post);
+        /*Dus wanneer je/posts/1 schrijft bij je url krijg 
+        je alle posts gegevens die gelinkt staan aan id=1 */
+        $post = Post::find($id);                                               //Vind Post doormiddel van ID
+        return view('posts.show')->with('post', $post);     
     }
 
     /**
@@ -133,15 +127,17 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    //Post-Aanpassen
     public function edit($id)
     {
         $post = Post::find($id);
 
         //Check for correct user
-        if(auth()->user()->id !=$post->user_id){                                //Als user id niet hetzelfde is als post id
-            return redirect('/posts')->with('error', 'Unauthorized Page');     //Redirect naar post
+        if(auth()->user()->id !=$post->user_id){                               //Als user_id niet hetzelfde is als post_id...
+            return redirect('/posts')->with('error', 'Unauthorized Page');     //Redirect naar /post met error
         }
-        return view('posts.edit')->with('post', $post);
+        return view('posts.edit')->with('post', $post);                        //Anders ga naar posts/edit
     }
 
     /**
@@ -151,6 +147,8 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    //Update-Posts
     public function update(Request $request, $id)
     {
         //Validatie
@@ -180,16 +178,16 @@ class PostsController extends Controller
         }
 
 
-        // Create Post 
-        $post = Post::find($id);                                        //Vind de post
-        $post -> title = $request->input('title');                      //Schrijf in de nieuwe post de gegeven titel
-        $post -> body = $request->input('body');                        //Schrijf in de nieuwe post de gegeven body
-        if($request->hasFile('cover_image')){                           //Als er een file ge-update is...
-            $post->cover_image= $fileNameToStore;                       //Vervang het dan met FilenameToStore (als dat niet zo is blijft het dezelfde file)
+        // Create/Update Post 
+        $post = Post::find($id);                                            //Vind de post op id
+        $post -> title = $request->input('title');                          //Schrijf in de nieuwe post de gegeven titel
+        $post -> body = $request->input('body');                            //Schrijf in de nieuwe post de gegeven body
+        if($request->hasFile('cover_image')){                               //Als er een file ge-update is...
+            $post->cover_image= $fileNameToStore;                           //Vervang het dan met FilenameToStore (als dat niet zo is blijft het dezelfde file)
         }
-        $post -> save();                                                //Save de gegevens van de nieuwe post in de database
+        $post -> save();                                                    //Save de gegevens van de nieuwe post in de database
 
-        return redirect('/posts')->with('success', 'Post Updated');     //doorgestuurd naar /posts met de succes-message
+        return redirect('/posts')->with('success', 'Post Updated');         //doorgestuurd naar /posts met de succes-message
     }
 
     /**
@@ -200,22 +198,18 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        //Find the post doorgebruik van de post-id
-        $post = Post::find($id);
+        $post = Post::find($id);                                            //Find the post met post-id
         
-        //Check for correct user(zodat niet de verkeerde user je post kan deleten)
-        if(auth()->user()->id !=$post->user_id){                                //Als user id niet hetzelfde is als post id
-            return redirect('/posts')->with('error', 'Unauthorized Page');     //Redirect naar post
+        if(auth()->user()->id !=$post->user_id){                            ///Als user_id niet hetzelfde is als post_id (anders kunnen andere mensen je post deleten)
+            return redirect('/posts')->with('error', 'Unauthorized Page');  //Redirect naar /posts met error message.
         }
         
-        if($post->cover_image!= 'noimage.jpg'){                             //Als de cover_image niet gelijk is aan "noimage.jpg" (dus als je bij het editen niet dezelfde image upload maar een andere)
-            //Delete Image
-            Storage::delete('public/cover_images/'.$post->cover_image);           //door $post->cover te typen haal je de naam van de foto op
+        if($post->cover_image!= 'noimage.jpg'){                             //Als de cover_image niet gelijk is aan "noimage.jpg" (dus als je bij het editen niet dezelfde image upload maar een andere)                                                   
+            Storage::delete('public/cover_images/'.$post->cover_image);     //Delete Image uit geheugen
+                                                                            //Door $post->cover te typen haal je de naam van de foto op
         }
 
         $post->delete();
-
-        //Terug sturen naar posts-url
-        return redirect('/posts')->with('success', 'Post Removed');
+        return redirect('/posts')->with('success', 'Post Removed');        
     }
 }

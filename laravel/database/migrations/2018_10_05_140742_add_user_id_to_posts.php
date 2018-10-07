@@ -1,5 +1,6 @@
 <?php
-
+                                                        /*Run the migration's door Terminal op te starten.
+                                                        php artisan migrate om het in je phpmyadmin te krijgen.*/
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -13,13 +14,10 @@ class AddUserIdToPosts extends Migration
      */
     public function up()
     {
-        //Tabel dat aangepast gaat worden is "posts"
-        Schema::table('posts', function($table){
-            //De kolom gaat heten user_id en zal gevuld worden met integers.
-            $table->integer('user_id');
+        Schema::table('posts', function($table){        //Tabel aanmaken met de naam "posts"
+            $table->integer('user_id');                 //Bevat kolom met de naam user_id en bestaat uit integers.
         });
-        //Run the migration's door Terminal op te starten.
-        //php artisan migrate om het in je phpmyadmin te krijgen.
+
     }
 
     /**
@@ -27,14 +25,14 @@ class AddUserIdToPosts extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down()                              //Kolom verweideren
     {
-        //Wil je de kolom niet meer doe dit;
         Schema::table('posts', function($table){
-            //Delete de kolom.
-            $table->dropColumn('user_id');
+            $table->dropColumn('user_id');              //Delete de kolom.
         });
-        //Drop the migration's door Terminal op te starten.
-        //php artisan migrate rollback zorgt ervoor dat de kolom uit phpmyadmin gehaald word.
+
+                                                        /*Drop the migration's door Terminal op te starten.
+                                                        php artisan migrate rollback zorgt ervoor dat de kolom 
+                                                        uit phpmyadmin gehaald word. */
     }
 }
