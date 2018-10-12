@@ -15,11 +15,13 @@
                 <li class="nav-item">
                   <a class="nav-link" href="/list">Bekeken Films</a>
                 </li>
+                <!--
                 <li class="nav-item">
                   <a class="nav-link" href="/services">Gedeelde Lijst</a>
                 </li>
+                -->
                 <li class="nav-item">
-                  <a class="nav-link" href="/posts">Eigen Lijst</a>
+                  <a class="nav-link" href="/posts">Gedeelde Lijst</a>
                 </li>
               
         </ul>
@@ -41,7 +43,7 @@
                     </li>
                 @else
                 <!--Geen Guest, al ingelogt -->
-                <a class="nav-link" href="/dashboard">Dashboard</a>
+                <a class="nav-link" href="/dashboard">Eigen Lijst</a>
 
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

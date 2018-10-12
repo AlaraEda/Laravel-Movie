@@ -33,4 +33,8 @@ class User extends Authenticatable
     public function posts(){                                            //Relatie tussen User en Post tabel gecreeerd.                         
         return $this->hasMany('App\Post');                              //Één User heeft meerdere (hasmany) Posts
     }
+
+    public function movie(){                                            //Relatie tussen user & movie tabel gecreeerd.
+        return $this ->hasMany('App\Movie');                            //Één heeft meerdere movie namen.
+    }
 }

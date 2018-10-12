@@ -40,10 +40,14 @@ Route::get('/about', function () {                          //Door dit te doen g
 */
 
 Route::get('/', 'PagesController@index');                   //De functie naam is "index" op de PagesController die 
-Route::get('/list', 'PagesController@list');              //functie word opgeroepen.
+Route::get('/list', 'PagesController@list');                //functie word opgeroepen.
 Route::get('/services', 'PagesController@services');
 
-Route::resource('/posts', 'PostsController');           //vai /posts-route kan je nu alle functies van PostsController gebruiken.
+Route::resource('/posts', 'PostsController');               //posts-route kan je nu alle functies van PostsController gebruiken.
 Auth::routes();
 
+//Eigen lijst
 Route::get('/dashboard', 'DashboardController@index');
+
+//Already watched movies
+route::resource('/list', 'MovieController');                //Geconnecteerd met alle functies van de moviecontroller.
