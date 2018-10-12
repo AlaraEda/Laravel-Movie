@@ -40,7 +40,7 @@ Route::get('/about', function () {                          //Door dit te doen g
 */
 
 Route::get('/', 'PagesController@index');                   //De functie naam is "index" op de PagesController die 
-Route::get('/about', 'PagesController@about');              //functie word opgeroepen.
+Route::get('/list', 'PagesController@list');              //functie word opgeroepen.
 Route::get('/services', 'PagesController@services');
 
 Route::resource('/posts', 'PostsController');           //vai /posts-route kan je nu alle functies van PostsController gebruiken.

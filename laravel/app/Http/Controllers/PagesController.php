@@ -15,10 +15,10 @@ class PagesController extends Controller                                //Elke c
         return view('pages/index', compact('title'));                   //Verwerkt title in index-page door "compact"
     }
 
-    //About-Page
-    public function about(){
-        $title = 'About Us';
-        return view('pages/about') -> with('title',$title);
+    //List-Page
+    public function list(){
+        $title = 'List-Page';
+        return view('pages/list') -> with('title',$title);
     }
     
     //Service Page
