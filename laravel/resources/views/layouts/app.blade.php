@@ -7,7 +7,7 @@
     <!-- CSRF Token (security reasons)-->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Movie') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -34,7 +34,7 @@
             |De "Pages" krijgen allemaal deze lay-out.
             |--------------------------------------------
             -->
-            @yield('content')                                                       <!-- 'Content' komt van app.blade.php -->
+            @yield('content')
         </div>
         
         <!--

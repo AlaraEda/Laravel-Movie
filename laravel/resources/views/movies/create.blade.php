@@ -6,12 +6,10 @@
     <h1>Create Post</h1>
     <!-- 
     |-----------------------------------------------------------------
-    |Controllerfunction van store word opgevraagt
-    |Wanneer je een Foto-file stuurt moet je een enctype attribute
-    |hebben in de form & moet je dat zetten naar multipart form data
+    |Controllerfunction van store word opgevraagt.
     |-----------------------------------------------------------------
     -->
-    {!! Form::open(['action'=>'PostsController@store', 'method'=>'POST', 'enctype'=>'multipart/form-data']) !!}
+    {!! Form::open(['action'=>'MoviesController@store', 'method'=>'POST', 'enctype'=>'multipart/form-data']) !!}
         <div class="form-group">
             <!-- De labelnaam is title. De echte tekst word Title-->
             {{Form::label('title', 'Title:')}}                                               
@@ -25,21 +23,27 @@
             -->
             {{Form::text('title', '',['class'=> 'form-control', 'placeholder'=>'Title'])}}
         </div>
+
+        <div class="form-group">
+            {{Form::label('genre', 'Genre:')}}                                               
+            {{Form::text('genre', '',['class'=> 'form-control', 'placeholder'=>'Genre'])}}
+        </div>
+
+        <div class="form-group">
+            {{Form::label('score', 'Score:')}}                                               
+            {{Form::text('score', '',['class'=> 'form-control', 'placeholder'=>'Score'])}}
+        </div>
+
+        <div class="form-group">
+            {{Form::label('comments', 'Comments:')}}
+            {{Form::textarea('comments', '',['id'=>'article-ckeditor','class'=> 'form-control', 'placeholder'=>'Write your comment...'])}}
+        </div>
         
-        <div class="form-group">
-            {{Form::label('body', 'Body:')}}
-            {{Form::textarea('body', '',['id'=>'article-ckeditor','class'=> 'form-control', 'placeholder'=>'Body Text'])}}
-        </div>
-
-        <div class="form-group">
-            <!-- Cover_image is hoe de file heet. Wanneer je een file stuurt moet je een ink-type -->
-            {{Form::file('cover_image')}} 
-        </div>
-
         <!-- 
             |'Submit' is de value. Wanneer we op "submit" klikken komt er een 
             |post request naar de store functie van de controllers. 
         -->
         {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+        <br><br><br>
     {!! Form::close() !!}
 @endsection
