@@ -1,4 +1,8 @@
-<!-- Bekeken Films Pagina -->
+<!-- 
+|Bekeken Films Pagina 
+|Je krijgt toegang tot de $movies variabele omdat dat aan je word meegegeven in de MoviesController.
+-->
+
 
 @extends('layouts.app')
 

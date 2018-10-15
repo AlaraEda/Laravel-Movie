@@ -33,7 +33,9 @@ class MoviesController extends Controller
         $movies = Movie::orderBy('created_at','desc')->paginate(10);           //Maar 10 Posts per pagina.
         
         //Pas dit aan
-        return view('pages/list')->with('movies', $movies);                    //Movies variabele word meegegeven aan de view.
+        return view('pages/list')->with('movies', $movies);                    //Movies variabele word meegegeven aan de. 
+                                                                               //En deze variabele word ook "movies" genoemd in je view template. 
+                                                                               // Waardoor je het in je template kan gebruiken.
     }
 
     /**
@@ -100,7 +102,13 @@ class MoviesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $Movie = Movie::find($id);
+
+        //Check for correct user
+        if(auth()->user()->id !=$Movie->user_id){                               //Als user_id niet hetzelfde is als movie_id...
+            return redirect('/list')->with('error', 'Unauthorized Page');       //Redirect naar /list met error
+        }
+        return view('movies/edit')->with('movies', $Movie);                      //Word doorgestuurd naar de Edit url van movie met de oude data
     }
 
     /**
@@ -110,9 +118,24 @@ class MoviesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id) //Dit doet basically hetzelfde als de store-functie
     {
-        //
+        //Validatie
+        $this ->validate($request,[
+            'title' => 'required'
+        ]);
+
+        // Create/Update Movie 
+        $movie = Movie::find($id);                                          //Vind de Movie op id doormiddel van het zoeken in de Movie Model
+        $movie -> title = $request->input('title');                         //Schrijf in de nieuwe post de gegeven titel
+        $movie -> genre = $request->input('genre');                         //Schrijf in de nieuwe post de gegeven genre
+        $movie -> score = $request->input('score');                         //Schrijf in de nieuwe post de gegeven score
+        $movie -> comments = $request->input('comments');                   //Schrijf in de nieuwe post de gegeven comments
+        
+        $movie -> save();                                                   //Save de gegevens van de nieuwe post in de database
+
+        return redirect('/list')->with('success', 'Movie Updated');         //doorgestuurd naar /list met de succes-message
+
     }
 
     /**
