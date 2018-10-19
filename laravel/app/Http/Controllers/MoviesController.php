@@ -62,25 +62,49 @@ class MoviesController extends Controller
         door in de functie doormiddel van de parameters.*/
         
         //Validatie -->Zijn alle velden ingevuld?
-        $this ->validate($request,[                                                                     //In de array staan de regels waar de form zich aan moet houden.
-            'title' => 'required'
+        $this ->validate($request,[                                          //In de array staan de regels waar de form zich aan moet houden.
+            'title' => 'required'     
         ]);
 
+    
         //Create-Post
-        $movie = new Movie;                                                     //New Movie; kunnen we doen omdat we App\Movie(movie.php model) hebben staan boven aan de pagina)
-        //Status moet een default value hebben.
-        $movie -> status = 'true';                                              //Status is qua default altijd "true"
-        $movie -> title = $request->input('title');                             //Schrijf in de nieuwe post de gegeven titel
-        $movie -> genre = $request->input('genre');                             //Schrijf in de nieuwe post de gegeven genre
-        $movie -> score = $request->input('score');                             //Schrijf in de nieuwe post de gegeven score
-        $movie -> comments = $request->input('comments');                       //Schrijf in de nieuwe post de gegeven comments
+        $movie = new Movie;                                                   //New Movie; kunnen we doen omdat we App\Movie(movie.php model) hebben staan boven aan de pagina)
+        $movie->status = 'true';                                              //Status is qua default altijd "true"
+        $movie->title = $request->input('title');                             //Schrijf in de nieuwe post de gegeven titel
 
-        $movie -> user_id = auth()->user()->id;                                 //We zetten geen 'request' want dit komt niet van de form.
-                                                                                //Sla het nummer(id) van de momenteel ingelogde user op in User_id
+        //Genre
+        if ($request->input('genre') == null){                               //Als er niks ingevuld word bij "genre"
+            $movie->genre = '-';                                             //schrijf als default value -
+        }
+        else{                                                                //Anders;
+            $movie->genre = $request->input('genre');                        //Schrijf in de nieuwe post de gegeven genre
+        }
 
-        $movie -> save();                                                       //Save de gegevens van de nieuwe movie in database
+        //Score
+        if ($request->input('score') == null){                              
+            $movie->score = '-';                                            
+        }
+        else{                                                               
+            $movie->score = $request->input('score');                       
+        }
 
-        return redirect('/list')->with('success', 'Movie Added');               //Word doorgestuurd naar /list-pagina met de succes-message
+        //Comments
+        if ($request->input('comments') == null){                              
+            $movie->comments = '-';                                            
+        }
+        else{                                                               
+            $movie->comments = $request->input('comments');                       
+        }
+
+        
+        
+
+        $movie->user_id = auth()->user()->id;                                 //We zetten geen 'request' want dit komt niet van de form.
+                                                                              //Sla het nummer(id) van de momenteel ingelogde user op in User_id
+
+        $movie->save();                                                       //Save de gegevens van de nieuwe movie in database
+
+        return redirect('/list')->with('success', 'Movie Added');             //Word doorgestuurd naar /list-pagina met de succes-message
     }
 
     /**

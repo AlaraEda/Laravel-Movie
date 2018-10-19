@@ -18,6 +18,15 @@
                 <a href="/list/create" class="btn btn-primary">Add Movies</a>
                 <div class="card-body">
 
+                    <!-- Quick Movie Add -->
+                    {!! Form::open(['action'=>'MoviesController@store', 'method'=>'POST', 'enctype'=>'multipart/form-data']) !!}
+                        <div class="form-group">
+                            <label>Add Movie:</label>
+                            <input type="text" name="title" value="", placeholder="Movie Titel:"><br>
+                        </div>
+                        {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+                    {!! Form::close() !!}
+
                     <h3> Count by title</h3>
                     <table class="table table-striped">
                         <tr>

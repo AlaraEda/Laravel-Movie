@@ -1,4 +1,4 @@
-<!-- Content van create-page voor posts-->
+<!-- Content van create-page voor movies-->
 @extends('layouts.app')
 
 @section('content')
