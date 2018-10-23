@@ -39,8 +39,9 @@
           <div class="card-header text-white bg-dark mb-3">{{$letters[$cijfer]}} </div>                     <!-- Card name -->
           <div class="card-body">
             @foreach($c as $movie)                                                                          <!-- De meegegeven variabele in controller -->
+               
               <div class="row">
-                  <div class="col-6"> 
+                  <div class="col-6">
                           {{$movie->title}}                                                                 <!-- Movie naam in de database -->                                         
                   </div>
 
@@ -50,6 +51,7 @@
 
                   <br>
               </div>
+              
             @endforeach
           </div>
         </div>

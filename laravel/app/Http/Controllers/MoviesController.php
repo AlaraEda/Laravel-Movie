@@ -31,6 +31,7 @@ class MoviesController extends Controller
     public function overzicht(){
         //$movies = Movie::orderBy('title')->paginate(10);                        //Maar 10 Posts per pagina.
         $c = Movie::orderBy('title')->where('title','like','C%')->get();
+        $a = Movie::orderBy('title')->where('title','like','A%')->get();
         return view('pages/overzicht')->with('c', $c);
     }
 
