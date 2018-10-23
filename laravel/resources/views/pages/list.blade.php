@@ -1,8 +1,7 @@
 <!-- 
-|Bekeken Films Pagina 
+|Overzicht Bekeken Films Pagina 
 |Je krijgt toegang tot de $movies variabele omdat dat aan je word meegegeven in de MoviesController.
 -->
-
 
 @extends('layouts.app')
 
@@ -17,46 +16,41 @@
                 <div class="card-header">Watched Movies</div>
                 <a href="/list/create" class="btn btn-primary">Add Movies</a>
                 <div class="card-body">
-
-                    <!-- Quick Movie Add -->
-                    {!! Form::open(['action'=>'MoviesController@store', 'method'=>'POST', 'enctype'=>'multipart/form-data']) !!}
-                        <div class="form-group">
-                            <label>Add Movie:</label>
-                            <input type="text" name="title" value="", placeholder="Movie Titel:"><br>
-                        </div>
-                        {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
-                    {!! Form::close() !!}
-
+                    
                     <h3> Count by title</h3>
-                    <table class="table table-striped">
-                        <tr>
-                            <th>Status</th>
-                            <th>Title</th>
-                            <th>Genre</th>
-                            <th>Score</th>
-                            <th>Comments</th>
-                        </tr>
-
-                        <!-- Loop door alle posts van de user -->
-                        @foreach($movies as $movie)  <!-- De variabele van het model is $movies genoemd -->
-                        <tr>
-                            <td>{{$movie->status}}</td>
-                            <td>{{$movie->title}}</td>
-                            <td>{{$movie->genre}}</td>
-                            <td>{{$movie->score}}</td>
-                            <td>{{$movie->comments}}</td>
-                            <td><a href="/list/{{$movie->id}}/edit" class="btn btn-default">Edit</a></td>
-                            <td>
-                                {!!Form::open(['action'=>['MoviesController@destroy',$movie->id], 'method'=> 'POST', 'class'=>'pull-right'])!!}
-                                    {{Form::hidden('_method', 'DELETE')}}
-                                    {{Form::submit('X',['class'=> 'btn btn-danger'])}}
-                                {!!Form::close()!!}
-                            </td>
-                        </tr>
-                        @endforeach
-
+                    <table class ="table table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Status</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Genre</th>
+                                <th scope="col">Score</th>
+                                <th scope="col">Comments</th>
+                                <th scope="col">Edit</th>
+                                <th scope="col">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Loop door alle posts van de user -->
+                            @foreach($movies as $movie)  <!-- De variabele van het model is $movies genoemd -->
+                            <tr>
+                                <td scope="row">{{$movie->status}}</td>
+                                <td scope="row">{{$movie->title}}</td>
+                                <td scope="row">{{$movie->genre}}</td>
+                                <td scope="row">{{$movie->score}}</td>
+                                <td scope="row">{{$movie->comments}}</td>
+                                <td scope="row"><a href="/list/{{$movie->id}}/edit" class="btn btn-default">Edit</a></td>
+                                <td scope="row">
+                                    {!!Form::open(['action'=>['MoviesController@destroy',$movie->id], 'method'=> 'POST', 'class'=>'pull-right'])!!}
+                                        {{Form::hidden('_method', 'DELETE')}}
+                                        {{Form::submit('X',['class'=> 'btn btn-danger'])}}
+                                    {!!Form::close()!!}
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                        </table>
                     </table>
-                 
                 </div>
             </div>
         </div>

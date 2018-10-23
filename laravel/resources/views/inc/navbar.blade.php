@@ -12,8 +12,14 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
                     
-                <li class="nav-item">
-                  <a class="nav-link" href="/list">Bekeken Films</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Bekeken</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/overzicht">Overzicht Films</a>
+                        <a class="dropdown-item" href="/genre">Genre's</a>
+                        <a class="dropdown-item" href="/list">Tabel-Films</a>
+                        <!-- <div class="dropdown-divider"></div> -->
+                    </div>
                 </li>
                 <!--
                 <li class="nav-item">
@@ -21,14 +27,12 @@
                 </li>
                 -->
                 <li class="nav-item">
-                  <a class="nav-link" href="/posts">Gedeelde Lijst</a>
+                  <a class="nav-link" href="/dashboard">Te Zien/Eigen Lijst</a>
                 </li>
-              
-        </ul>
+            </ul>
 
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ml-auto">
-                
                 <!-- Authenticatie Linkjes -->
                 @guest
                     <!-- Login -->
@@ -43,25 +47,28 @@
                     </li>
                 @else
                 <!--Geen Guest, al ingelogt -->
-                <a class="nav-link" href="/dashboard">Eigen Lijst</a>
+                <a class="nav-link" href="/posts">Gedeelde Lijst</a>
+                <li class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        {{ Auth::user()->name }} <span class="caret"></span>
+                    </a>
 
-                    <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            {{ Auth::user()->name }} <span class="caret"></span>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/list">Tabel-Films</a>
+                        <a class="dropdown-item" href="#">Instellingen</a>
+
+                        <!-- Log-out Button -->
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                                            document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
                         </a>
 
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('logout') }}"
-                               onclick="event.preventDefault();
-                                             document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
-
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                        </div>
-                    </li>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </div>
+                </li>
                 @endguest
             </ul>
         </div>

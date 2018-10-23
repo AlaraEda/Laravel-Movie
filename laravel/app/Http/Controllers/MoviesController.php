@@ -27,16 +27,22 @@ class MoviesController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    //Eerste wat je ziet wanneer je url: /list typt
-    public function index()
+    //Eerste wat je ziet wanneer je url: /overzicht typt
+    public function overzicht(){
+        //$movies = Movie::orderBy('title')->paginate(10);                        //Maar 10 Posts per pagina.
+        $c = Movie::orderBy('title')->where('title','like','C%')->get();
+        return view('pages/overzicht')->with('c', $c);
+    }
+
+    public function list()
     {
         $movies = Movie::orderBy('created_at','desc')->paginate(10);           //Maar 10 Posts per pagina.
         
         //Pas dit aan
         return view('pages/list')->with('movies', $movies);                    //Movies variabele word meegegeven aan de. 
                                                                                //En deze variabele word ook "movies" genoemd in je view template. 
-                                                                               // Waardoor je het in je template kan gebruiken.
-    }
+                                                                               //Waardoor je het in je template kan gebruiken.
+                                                                            }
 
     /**
      * Show the form for creating a new resource.
@@ -66,7 +72,6 @@ class MoviesController extends Controller
             'title' => 'required'     
         ]);
 
-    
         //Create-Post
         $movie = new Movie;                                                   //New Movie; kunnen we doen omdat we App\Movie(movie.php model) hebben staan boven aan de pagina)
         $movie->status = 'true';                                              //Status is qua default altijd "true"
