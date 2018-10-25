@@ -33,17 +33,18 @@
     ?> 
     @for($tabel = 0; $tabel<27; $tabel++)                                                                     <!-- Aantal tabellen-->
      <?php  $cijfer = $cijfer +1; ?>                                                                          <!-- Elke keer wanneer een tabel is aangemaakt doe +1 -->
-    
-      <div class="col-md-4">                                                                                <!-- 1 Card aanmaak is 4 col's lang waardoor er 3 naast elkaar past. Daarna gaat het noodgedwongen naar een volgende regel. -->
+      
+      <div class="col-md-4">
+        @foreach($filteredMovies as $movie)                                                                          <!-- De meegegeven variabele in controller -->                                                                                <!-- 1 Card aanmaak is 4 col's lang waardoor er 3 naast elkaar past. Daarna gaat het noodgedwongen naar een volgende regel. -->
         <div class="card bg-light mb-3" style="max-width: 23rem;">                                          <!-- Card in de vrijgemaakte col stoppen -->
           <div class="card-header text-white bg-dark mb-3">{{$letters[$cijfer]}} </div>                     <!-- Card name -->
           <div class="card-body">
-            @foreach($c as $movie)                                                                          <!-- De meegegeven variabele in controller -->
+            @foreach
                
               <div class="row">
                   <div class="col-6">
                           {{$movie->title}}                                                                 <!-- Movie naam in de database -->                                         
-                  </div>
+                        </div>
 
                   <div class="col-6"> 
                     <a href="/list/{{$movie->id}}/edit" class="btn btn-default">Edit</a>
@@ -51,10 +52,10 @@
 
                   <br>
               </div>
-              
             @endforeach
           </div>
         </div>
+        @endforeach
       </div>
 
     @endfor

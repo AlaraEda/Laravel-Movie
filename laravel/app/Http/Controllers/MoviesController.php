@@ -30,9 +30,25 @@ class MoviesController extends Controller
     //Eerste wat je ziet wanneer je url: /overzicht typt
     public function overzicht(){
         //$movies = Movie::orderBy('title')->paginate(10);                        //Maar 10 Posts per pagina.
-        $c = Movie::orderBy('title')->where('title','like','C%')->get();
-        $a = Movie::orderBy('title')->where('title','like','A%')->get();
-        return view('pages/overzicht')->with('c', $c);
+        $c = DB:: select('SELECT * FROM movies');
+        //$a = Movie::orderBy('title')->where('title','like','A%')->get();
+        $movies = Movie::orderBy('title','asc')->get();
+        $chars = range('a','z');
+
+        $filteredMovies = [];
+
+        foreach ($chars as $char){
+     
+            foreach ( $movies as $movie) {
+
+                if ( $char == strtolower(substr($movie->title, 0, 1))){
+                    $filteredMovies[$char][] = $movie;
+                }
+            }
+        }
+
+        return view('pages/overzicht', compact('filteredMovies'));
+
     }
 
     public function list()
