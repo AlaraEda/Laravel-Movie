@@ -16,7 +16,7 @@
       {!! Form::open(['action'=>'MoviesController@store', 'method'=>'POST', 'enctype'=>'multipart/form-data']) !!}
           <div class="form-group">
               <label><b>Add Movie: </b></label>
-              <input type="text" name="title" value="", placeholder="Movie Titel..."><br>
+              <input type="text" name="title" value="" placeholder="Movie Titel..."><br>
           </div>
       {!! Form::close() !!}
     </div>
@@ -38,20 +38,19 @@
         <div class="card bg-light mb-3" style="max-width: 23rem;">                                          <!-- Card in de vrijgemaakte col stoppen -->
           <div class="card-header text-white bg-dark mb-3">{{$letters[$cijfer]}} </div>                     <!-- Card name -->
           <div class="card-body">
-            @foreach($c as $movie)                                                                          <!-- De meegegeven variabele in controller -->
-               
+            @foreach($c as $mo)                                                                          <!-- De meegegeven variabele in controller -->
+            @foreach($h as $movie)   
               <div class="row">
                   <div class="col-6">
-                          {{$movie->title}}                                                                 <!-- Movie naam in de database -->                                         
+                    <a href="/overzicht/{{$movie->id}}">{{$movie->title}}</a>                                 <!-- Movie naam in de database -->                                                                                                            
                   </div>
 
                   <div class="col-6"> 
-                    <a href="/list/{{$movie->id}}/edit" class="btn btn-default">Edit</a>
+                    <a href="/overzicht/{{$movie->id}}/edit" class="btn btn-default">Edit</a>
                   </div>
-
-                  <br>
               </div>
-              
+              <br>
+            @endforeach  
             @endforeach
           </div>
         </div>

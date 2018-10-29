@@ -29,12 +29,14 @@ class MoviesController extends Controller
 
     //Eerste wat je ziet wanneer je url: /overzicht typt
     public function overzicht(){
-        //$movies = Movie::orderBy('title')->paginate(10);                        //Maar 10 Posts per pagina.
-        $c = Movie::orderBy('title')->where('title','like','C%')->get();
-        $a = Movie::orderBy('title')->where('title','like','A%')->get();
-        return view('pages/overzicht')->with('c', $c);
+        $movies = Movie::orderBy('title');                        //Maar 10 Posts per pagina.
+        $c = Movie::orderBy('title')->where('title','like','M%')->get();
+        $h = Movie::orderBy('title')->where('title','like','H%')->get();
+        //return view('pages/overzicht')->with('c', $a);
+        return view("pages/overzicht", ["c"=>$c],["h"=>$h]);
     }
 
+    //Tabel
     public function list()
     {
         $movies = Movie::orderBy('created_at','desc')->paginate(10);           //Maar 10 Posts per pagina.
@@ -52,7 +54,6 @@ class MoviesController extends Controller
      */
     public function create()
     {
-        //Movies.create not found.
         return view('movies/create'); 
     }
 
@@ -77,6 +78,9 @@ class MoviesController extends Controller
         $movie = new Movie;                                                   //New Movie; kunnen we doen omdat we App\Movie(movie.php model) hebben staan boven aan de pagina)
         $movie->status = 'true';                                              //Status is qua default altijd "true"
         $movie->title = $request->input('title');                             //Schrijf in de nieuwe post de gegeven titel
+        // $movie->genre = $request->input('genre');                                    //Schrijf in de nieuwe post de gegeven titel
+        // $movie->score = $request->input('score');                                    //Schrijf in de nieuwe post de gegeven titel
+        // $movie->comments = $request->input('comments');                              //Schrijf in de nieuwe post de gegeven titel
 
         //Genre
         if ($request->input('genre') == null){                               //Als er niks ingevuld word bij "genre"
@@ -103,8 +107,6 @@ class MoviesController extends Controller
         }
 
         
-        
-
         $movie->user_id = auth()->user()->id;                                 //We zetten geen 'request' want dit komt niet van de form.
                                                                               //Sla het nummer(id) van de momenteel ingelogde user op in User_id
 
@@ -121,7 +123,11 @@ class MoviesController extends Controller
      */
     public function show($id)
     {
-        //
+        /*Dus wanneer je/posts/1 schrijft bij je url krijg 
+        je alle posts gegevens die gelinkt staan aan id=1 */
+        $movie = Movie::find($id);                                               //Vind Post doormiddel van ID
+        
+        return view('movies.show')->with('movies', $movie);  
     }
 
     /**
