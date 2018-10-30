@@ -105,7 +105,12 @@ class WatchlistController extends Controller
      */
     public function show($id)
     {
-        //
+        /*Dus wanneer je/posts/1 schrijft bij je url krijg 
+        je alle posts gegevens die gelinkt staan aan id=1 */
+        $watch = Watchlist::find($id);                                               //Vind Post doormiddel van ID
+        
+        return view('watch/show')->with('watch', $watch);  
+    
     }
 
     /**
@@ -116,7 +121,14 @@ class WatchlistController extends Controller
      */
     public function edit($id)
     {
-        //
+        $watch = Watchlist::find($id);
+
+        //Check for correct user
+        if(auth()->user()->id !=$watch->user_id){                               //Als user_id niet hetzelfde is als movie_id...
+            return redirect('/list')->with('error', 'Unauthorized Page');       //Redirect naar /list met error
+        }
+        return view('watch/edit')->with('watch', $watch);                      //Word doorgestuurd naar de Edit url van movie met de oude data
+    
     }
 
     /**
@@ -128,7 +140,22 @@ class WatchlistController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //Validatie
+        $this ->validate($request,[
+            'title' => 'required',
+            'genre' => 'required'
+        ]);
+
+        // Create/Update Movie 
+        $watch = Watchlist::find($id);                                          //Vind de Movie op id doormiddel van het zoeken in de Movie Model
+        $watch -> title = $request->input('title');                         //Schrijf in de nieuwe post de gegeven titel
+        $watch -> genre = $request->input('genre');                         //Schrijf in de nieuwe post de gegeven genre
+        $watch -> comments = $request->input('comments');                   //Schrijf in de nieuwe post de gegeven comments
+        
+        $watch -> save();                                                   //Save de gegevens van de nieuwe post in de database
+
+        return redirect('/watchlist')->with('success', 'Movie Updated');         //doorgestuurd naar /list met de succes-message
+
     }
 
     /**

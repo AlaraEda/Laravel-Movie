@@ -16,21 +16,27 @@
                     <div class ="col-md-auto">
                         <!-- Quick Movie Add -->
                         {!! Form::open(['action'=>'WatchlistController@store', 'method'=>'POST', 'enctype'=>'multipart/form-data']) !!}
-                                <div class="form-group">
-                                <label><b>Add Movie: </b></label>
-                                <input type="text" name="title" value="" placeholder="Movie Titel..."><br>
+                        <div class="row">
+                                <div class="form-group col-4">
+                                    <label><b>Add Movie: </b></label>
+                                    <input type="text" name="title" value="" placeholder="Movie Titel..."><br>
                                 </div>
 
-                                <div class="form-group">
-                                <label><b>Add Genre: </b></label>
-                                <input type="text" name="genre" value="" placeholder="Movie Genre..."><br>
+                                <div class="form-group col-4">
+                                    <label><b>Add Genre: </b></label>
+                                    <input type="text" name="genre" value="" placeholder="Movie Genre..."><br>
                                 </div>
-                                
-                            <input type="submit">
-                            <br>
-                            <br>
+
+                                <div class= 'col-4'>
+                                    <br>
+                                    <input type="submit">
+                                </div>
+                        </div>
                         {!! Form::close() !!}
                     </div>
+
+                    <br>
+                    <br>
                         <h3> Your WatchList </h3>
 
                         @if (count($names)>0)
@@ -46,7 +52,7 @@
                                 <!-- Loop door alle posts van de user -->
                                 @foreach($names as $movieName)
                                 <tr>
-                                    <td>{{$movieName->title}}</td>
+                                    <td><a href="/watchlist/{{$movieName->id}}">{{$movieName->title}}</a></td>                              <!-- Movie naam in de database -->
                                     <td>{{$movieName->genre}}</td>
                                     <td><a href="/watchlist/{{$movieName->id}}/edit" class="btn btn-default">Edit</a></td>
                                     <td>

@@ -25,7 +25,7 @@
 */
 
 
-//Route::get('/', 'PagesController@index');                     //De functie naam is "index" op de PagesController die 
+Route::get('/', 'PagesController@index');                     //De functie naam is "index" op de PagesController die 
 //Route::get('/services', 'PagesController@services');
 
 //DropDown-Pagina's

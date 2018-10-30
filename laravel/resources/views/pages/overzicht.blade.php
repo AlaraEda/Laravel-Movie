@@ -26,6 +26,9 @@
   <br>
   
   <div class="row">  
+    <select>
+      <option value="a">A</option>
+    </select>
     <?php
       //variabelen
       $letters = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','#');
@@ -34,7 +37,7 @@
     @for($tabel = 0; $tabel<27; $tabel++)                                                                     <!-- Aantal tabellen-->
      <?php  $cijfer = $cijfer +1; ?>                                                                          <!-- Elke keer wanneer een tabel is aangemaakt doe +1 -->
     
-      <div class="col-md-4">                                                                                <!-- 1 Card aanmaak is 4 col's lang waardoor er 3 naast elkaar past. Daarna gaat het noodgedwongen naar een volgende regel. -->
+      <div class="col-md-4">                                                                               <!-- 1 Card aanmaak is 4 col's lang waardoor er 3 naast elkaar past. Daarna gaat het noodgedwongen naar een volgende regel. -->
         <div class="card bg-light mb-3" style="max-width: 23rem;">                                          <!-- Card in de vrijgemaakte col stoppen -->
           <div class="card-header text-white bg-dark mb-3">{{$letters[$cijfer]}} </div>                     <!-- Card name -->
           <div class="card-body">

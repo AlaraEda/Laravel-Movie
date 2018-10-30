@@ -28,11 +28,12 @@ class MoviesController extends Controller
      */
 
     //Eerste wat je ziet wanneer je url: /overzicht typt
-    public function overzicht(){
+    public function overzicht(Request $request){
+        $letter = $request->get('letters');
+        //if/else
         $movies = Movie::orderBy('title');                        //Maar 10 Posts per pagina.
-        $c = Movie::orderBy('title')->where('title','like','M%')->get();
-        $h = Movie::orderBy('title')->where('title','like','H%')->get();
-        //return view('pages/overzicht')->with('c', $a);
+        $c = Movie::orderBy('title')->where('title','like',$letter.'%')->get();
+        
         return view("pages/overzicht", ["c"=>$c],["h"=>$h]);
     }
 
