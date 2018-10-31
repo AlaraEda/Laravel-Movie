@@ -47,6 +47,7 @@ Route::resource('/watchlist', 'WatchlistController');
 //Shared List
 Route::get('/sharedlist','WatchlistController@shared');
 
+Route::post('/filter', 'MoviesController@overzicht');
 
 Route::resource('/posts', 'PostsController');                //posts-route kan je nu alle functies van PostsController gebruiken.
 

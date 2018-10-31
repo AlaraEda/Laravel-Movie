@@ -25,22 +25,24 @@
   <br>
   <br>
   
-  <div class="row">
-    {!! Form::open(['url'=>'/filter', 'method'=>'POST', 'role'=>'filter']) !!}
-        <select name = "filter">
-          <option value="A">A</option>
-          <option value="H">H</option>
-        </select>
-      <button class="btn btn-primary sm" id="button_search" type="submit">Search</button>
-    {!! Form::close() !!}
-
-  <br><br>
-
-  <div class="col-md-4">                                                                               <!-- 1 Card aanmaak is 4 col's lang waardoor er 3 naast elkaar past. Daarna gaat het noodgedwongen naar een volgende regel. -->
+  <div class="row">  
+    <select>
+      <option value="a">A</option>
+    </select>
+    <?php
+      //variabelen
+      $letters = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','#');
+      $cijfer = -1;
+    ?> 
+    @for($tabel = 0; $tabel<27; $tabel++)                                                                     <!-- Aantal tabellen-->
+     <?php  $cijfer = $cijfer +1; ?>                                                                          <!-- Elke keer wanneer een tabel is aangemaakt doe +1 -->
+    
+      <div class="col-md-4">                                                                               <!-- 1 Card aanmaak is 4 col's lang waardoor er 3 naast elkaar past. Daarna gaat het noodgedwongen naar een volgende regel. -->
         <div class="card bg-light mb-3" style="max-width: 23rem;">                                          <!-- Card in de vrijgemaakte col stoppen -->
-          <div class="card-header text-white bg-dark mb-3"></div>                     <!-- Card name -->
-          <div class="card-body">                                                                         <!-- De meegegeven variabele in controller -->
-            @foreach($movies as $movie)   
+          <div class="card-header text-white bg-dark mb-3">{{$letters[$cijfer]}} </div>                     <!-- Card name -->
+          <div class="card-body">
+            @foreach($c as $mo)                                                                          <!-- De meegegeven variabele in controller -->
+            @foreach($h as $movie)   
               <div class="row">
                   <div class="col-6">
                     <a href="/overzicht/{{$movie->id}}">{{$movie->title}}</a>                                 <!-- Movie naam in de database -->                                                                                                            
@@ -52,8 +54,13 @@
               </div>
               <br>
             @endforeach  
+            @endforeach
           </div>
         </div>
+    
+      </div>
+
+    @endfor
   </div>    
   <br>                                                                                          
 @endsection

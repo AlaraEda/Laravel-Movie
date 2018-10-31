@@ -29,12 +29,36 @@ class MoviesController extends Controller
 
     //Eerste wat je ziet wanneer je url: /overzicht typt
     public function overzicht(Request $request){
-        $letter = $request->get('letters');
+        //$letter = $request->get('letters');
         //if/else
-        $movies = Movie::orderBy('title');                        //Maar 10 Posts per pagina.
-        $c = Movie::orderBy('title')->where('title','like',$letter.'%')->get();
-        
-        return view("pages/overzicht", ["c"=>$c],["h"=>$h]);
+        //$moviess = Movie::orderBy('title');                        //Maar 10 Posts per pagina.
+        //$c = Movie::orderBy('title')->where('title','like',$letter.'%')->get();
+        //$c = Movie::orderBy('title')->where('title','like', 'C%')->get();
+
+        // if($request->has('button')){
+        //     $request = "A";
+        // }else{
+        // $search = $request->get('button');
+
+        // $movies = DB::table('movies')
+        //             ->where('status', 'true')
+        //             ->where('title', $search.'%')
+        //             ->get();
+        // }
+
+        $search = $request->get('filter');
+
+        //$movies = Movie::orderBy('title')->where('title','like', 'A%')->get();
+        //$movies = DB:: table('movies')->where('title' -> 'H%') ->get();
+
+
+        $movies = DB::table('movies')
+                ->where('title', 'like', $search.'%')
+                ->get();
+
+        //return view("pages/overzicht", ["c"=>$c],["h"=>$h]);
+        //return view ("pages/overzicht")->with('c', $c);
+        return view ("pages/overzicht")->with('movies', $movies);
     }
 
     //Tabel
