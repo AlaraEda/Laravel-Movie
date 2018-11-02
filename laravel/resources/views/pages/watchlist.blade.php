@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -15,7 +16,7 @@
                     @endif
                     <div class ="col-md-auto">
                         <!-- Quick Movie Add -->
-                        {!! Form::open(['action'=>'WatchlistController@store', 'method'=>'POST', 'enctype'=>'multipart/form-data']) !!}
+                        {!! Form::open(['action'=>'MoviesController@store', 'method'=>'POST', 'enctype'=>'multipart/form-data']) !!}
                         <div class="row">
                                 <div class="form-group col-4">
                                     <label><b>Add Movie: </b></label>
@@ -43,6 +44,7 @@
                             <table class="table table-striped">
                                 
                                 <tr>
+                                    <th>Status</th>
                                     <th>FilmNaam</th>
                                     <th>Genre</th>
                                     <th>Edit</th>
@@ -56,7 +58,7 @@
                                     <td>{{$movieName->genre}}</td>
                                     <td><a href="/watchlist/{{$movieName->id}}/edit" class="btn btn-default">Edit</a></td>
                                     <td>
-                                        {!!Form::open(['action'=>['WatchlistController@destroy',$movieName->id], 'method'=> 'POST', 'class'=>'pull-right'])!!}
+                                        {!!Form::open(['action'=>['MoviesController@destroy',$movieName->id], 'method'=> 'POST', 'class'=>'pull-right'])!!}
                                             {{Form::hidden('_method', 'DELETE')}}
                                             {{Form::submit('X',['class'=> 'btn btn-danger'])}}
                                         {!!Form::close()!!}

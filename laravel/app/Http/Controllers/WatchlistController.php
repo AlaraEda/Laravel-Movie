@@ -26,13 +26,6 @@ class WatchlistController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
-    {
-        $user_id = auth()->user()->id;                                      //Hier krijg je de User_Id van de persoon die is ingelogt.
-        $user = User::find($user_id);                                       //Vind de UserModel doormiddel van de User_id
-        return view('pages/watchlist')->with('names', $user->watchlist);    //Geef deze informatie door naar de Dashboard met de movies van die ene user.
-                                                                            //De ID van de user is nu verbonden met de watchlist-tabel
-    }
 
     public function shared(){
         $watchlist = Watchlist::orderBy('created_at','desc')->paginate(10);           //Maar 10 Posts per pagina.

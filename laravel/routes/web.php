@@ -35,19 +35,21 @@ Route::resource('/genre','MoviesController');               //Gecategoriseerd
 
 //DropDown-Pagina
 Route::get('/overzicht', 'MoviesController@overzicht');
+Route::post('/filter', 'MoviesController@overzicht');
 Route::get('/list', 'MoviesController@list');
 
 //Radomizer
 Route::get('/dashboard', 'DashboardController@index');
 
 //Watchlist
-//Route::get('/watchlist', 'WatchlistController@index');
-Route::resource('/watchlist', 'WatchlistController');
+
+Route::get('/watchlist', 'MoviesController@watchlist');
+//Route::resource('/watchlist', 'MoviesController');
 
 //Shared List
-Route::get('/sharedlist','WatchlistController@shared');
+Route::get('/sharedlist','MoviesController@shared');
 
-Route::post('/filter', 'MoviesController@overzicht');
+
 
 Route::resource('/posts', 'PostsController');                //posts-route kan je nu alle functies van PostsController gebruiken.
 

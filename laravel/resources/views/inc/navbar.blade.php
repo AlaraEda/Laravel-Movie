@@ -27,7 +27,7 @@
                 </li>
                 -->
                 <li class="nav-item">
-                  <a class="nav-link" href="/watchlist">Te Zien/Eigen Lijst</a>
+                  <a class="nav-link" href="/watchlist">Watchlist</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="/dashboard">Randomizer</a>

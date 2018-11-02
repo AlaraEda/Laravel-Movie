@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;     //Storage of Photo's library
 use App\Movie;                              //Zodat Movie.php gebruikt wordt
+use App\User;                              //Zodat Movie.php gebruikt wordt
 use DB;                                     //SQL word gebruikt inplaats van Eloquent
 
 
@@ -29,36 +30,37 @@ class MoviesController extends Controller
 
     //Eerste wat je ziet wanneer je url: /overzicht typt
     public function overzicht(Request $request){
-        //$letter = $request->get('letters');
-        //if/else
-        //$moviess = Movie::orderBy('title');                        //Maar 10 Posts per pagina.
-        //$c = Movie::orderBy('title')->where('title','like',$letter.'%')->get();
-        //$c = Movie::orderBy('title')->where('title','like', 'C%')->get();
-
-        // if($request->has('button')){
-        //     $request = "A";
-        // }else{
-        // $search = $request->get('button');
-
-        // $movies = DB::table('movies')
-        //             ->where('status', 'true')
-        //             ->where('title', $search.'%')
-        //             ->get();
-        // }
-
         $search = $request->get('filter');
 
-        //$movies = Movie::orderBy('title')->where('title','like', 'A%')->get();
-        //$movies = DB:: table('movies')->where('title' -> 'H%') ->get();
-
-
-        $movies = DB::table('movies')
+        if ($search === "ALLES"){
+            $movies = Movie::orderBy('title')->where('status','true')->get();
+        }else{
+            $movies = DB::table('movies')
                 ->where('title', 'like', $search.'%')
+                ->where('status', 'true')
                 ->get();
+        }
 
-        //return view("pages/overzicht", ["c"=>$c],["h"=>$h]);
-        //return view ("pages/overzicht")->with('c', $c);
         return view ("pages/overzicht")->with('movies', $movies);
+    }
+
+    //Watchlist
+    public function watchlist(){
+        $user_id = auth()->user()->id;                                      //Hier krijg je de User_Id van de persoon die is ingelogt.
+        //$user = User::find($user_id);                                       //Vind de UserModel doormiddel van de User_id
+        $movies = Movie::orderBy('title')->where('status', 'false')->where('user_id', $user_id)->get();
+        //dd($user->movies);
+        return view('pages/watchlist')->with('names', $movies);       //Geef deze informatie door naar de Dashboard met de movies van die ene user.
+                                                                            //De ID van de user is nu verbonden met de watchlist-tabel
+    }
+
+    //Sharing the Watchlist
+    public function shared(){
+        $watchlist = Movie::orderBy('created_at','desc')
+                            ->where('status', 'false')
+                            ->paginate(10);                                 //Maar 10 Posts per pagina.
+        
+        return view('pages/shared')->with('watchlist', $watchlist);                   //Post-variabele word meegegeven aan de view.
     }
 
     //Tabel
@@ -88,6 +90,8 @@ class MoviesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    //Opslaan in database
     public function store(Request $request)
     {
         /* we stoppen de request die naar de MoviesController 
@@ -103,9 +107,6 @@ class MoviesController extends Controller
         $movie = new Movie;                                                   //New Movie; kunnen we doen omdat we App\Movie(movie.php model) hebben staan boven aan de pagina)
         $movie->status = 'true';                                              //Status is qua default altijd "true"
         $movie->title = $request->input('title');                             //Schrijf in de nieuwe post de gegeven titel
-        // $movie->genre = $request->input('genre');                                    //Schrijf in de nieuwe post de gegeven titel
-        // $movie->score = $request->input('score');                                    //Schrijf in de nieuwe post de gegeven titel
-        // $movie->comments = $request->input('comments');                              //Schrijf in de nieuwe post de gegeven titel
 
         //Genre
         if ($request->input('genre') == null){                               //Als er niks ingevuld word bij "genre"
