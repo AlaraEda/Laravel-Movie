@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;     //Storage of Photo's library
 use App\User;                              //Zodat Movie.php gebruikt wordt
-use App\Watchlist;
+use App\Movie;
 use DB;                                     //SQL word gebruikt inplaats van Eloquent
 
 class WatchlistController extends Controller
@@ -25,12 +25,41 @@ class WatchlistController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
+     //Watchlist
+    public function watchlist(){
+        $user_id = auth()->user()->id;                                       //Hier krijg je de User_Id van de persoon die is ingelogt.
+        $movies = Movie::orderBy('title')->where('status', 'false')->where('user_id', $user_id)->get();
+        return view('pages/watchlist')->with('names', $movies);              //Geef deze informatie door naar de Dashboard met de movies van die ene user.
+                                                                             //De ID van de user is nu verbonden met de watchlist-tabel
+    }
 
-
+    //Sharing the Watchlist
     public function shared(){
-        $watchlist = Watchlist::orderBy('created_at','desc')->paginate(10);           //Maar 10 Posts per pagina.
+        $watchlist = Movie::orderBy('created_at','desc')
+                            ->where('status', 'false')
+                            ->paginate(10);                                 //Maar 10 Posts per pagina.
         
         return view('pages/shared')->with('watchlist', $watchlist);                   //Post-variabele word meegegeven aan de view.
+    }
+
+    //Flip Functie-Watchlist
+    public function flip($id){
+        $flip = Movie::find($id);
+        
+        if ($flip->status == 'false'){
+            $flip->status = 'true';
+            $flip->save();
+        }
+        else{
+            $flip->status = 'false';
+            $flip->save();
+        }
+
+        //Herhaling van wat er al in watchlist() functie staat;
+        $user_id = auth()->user()->id;                                      //Hier krijg je de User_Id van de persoon die is ingelogt.
+        $movies = Movie::orderBy('title')->where('status', 'false')->where('user_id', $user_id)->get();
+        return view('pages/watchlist')->with('names', $movies);       //Geef deze informatie door naar de Dashboard met de movies van die ene user.
     }
     /**
      * Show the form for creating a new resource.
@@ -61,8 +90,8 @@ class WatchlistController extends Controller
         ]);
 
         //Create-Post
-        $watch = new Watchlist;                                                   //New Movie; kunnen we doen omdat we App\Movie(movie.php model) hebben staan boven aan de pagina)
-        $watch->status = 'true';                                              //Status is qua default altijd "true"
+        $watch = new Movie;                                                   //New Movie; kunnen we doen omdat we App\Movie(movie.php model) hebben staan boven aan de pagina)
+        $watch->status = 'false';                                             //Status is qua default altijd "false"
         $watch->title = $request->input('title');                             //Schrijf in de nieuwe post de gegeven titel
  
         //Genre
@@ -100,7 +129,7 @@ class WatchlistController extends Controller
     {
         /*Dus wanneer je/posts/1 schrijft bij je url krijg 
         je alle posts gegevens die gelinkt staan aan id=1 */
-        $watch = Watchlist::find($id);                                               //Vind Post doormiddel van ID
+        $watch = Movie::find($id);                                               //Vind Post doormiddel van ID
         
         return view('watch/show')->with('watch', $watch);  
     
@@ -114,7 +143,7 @@ class WatchlistController extends Controller
      */
     public function edit($id)
     {
-        $watch = Watchlist::find($id);
+        $watch = Movie::find($id);
 
         //Check for correct user
         if(auth()->user()->id !=$watch->user_id){                               //Als user_id niet hetzelfde is als movie_id...
@@ -140,7 +169,7 @@ class WatchlistController extends Controller
         ]);
 
         // Create/Update Movie 
-        $watch = Watchlist::find($id);                                          //Vind de Movie op id doormiddel van het zoeken in de Movie Model
+        $watch = Movie::find($id);                                          //Vind de Movie op id doormiddel van het zoeken in de Movie Model
         $watch -> title = $request->input('title');                         //Schrijf in de nieuwe post de gegeven titel
         $watch -> genre = $request->input('genre');                         //Schrijf in de nieuwe post de gegeven genre
         $watch -> comments = $request->input('comments');                   //Schrijf in de nieuwe post de gegeven comments
@@ -160,7 +189,7 @@ class WatchlistController extends Controller
     public function destroy($id)
     {
             
-        $watch = Watchlist::find($id);                                            //Find the post met post-id
+        $watch = Movie::find($id);                                            //Find the post met post-id
         
         if(auth()->user()->id !=$watch->user_id){                            ///Als user_id niet hetzelfde is als post_id (anders kunnen andere mensen je post deleten)
             return redirect('/watchlist')->with('error', 'Unauthorized Page');  //Redirect naar /posts met error message.

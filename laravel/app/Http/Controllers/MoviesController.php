@@ -30,37 +30,42 @@ class MoviesController extends Controller
 
     //Eerste wat je ziet wanneer je url: /overzicht typt
     public function overzicht(Request $request){
+        $user_id = auth()->user()->id;                                                                      //Hier krijg je de User_Id van de persoon die is ingelogt.
+        
         $search = $request->get('filter');
 
         if ($search === "ALLES"){
-            $movies = Movie::orderBy('title')->where('status','true')->get();
+            $movies = Movie::orderBy('title')->where('status', 'true')->where('user_id', $user_id)->get();
         }else{
             $movies = DB::table('movies')
                 ->where('title', 'like', $search.'%')
                 ->where('status', 'true')
+                ->where('user_id', $user_id)
                 ->get();
         }
-
         return view ("pages/overzicht")->with('movies', $movies);
     }
 
-    //Watchlist
-    public function watchlist(){
-        $user_id = auth()->user()->id;                                      //Hier krijg je de User_Id van de persoon die is ingelogt.
-        //$user = User::find($user_id);                                       //Vind de UserModel doormiddel van de User_id
-        $movies = Movie::orderBy('title')->where('status', 'false')->where('user_id', $user_id)->get();
-        //dd($user->movies);
-        return view('pages/watchlist')->with('names', $movies);       //Geef deze informatie door naar de Dashboard met de movies van die ene user.
-                                                                            //De ID van de user is nu verbonden met de watchlist-tabel
-    }
-
-    //Sharing the Watchlist
-    public function shared(){
-        $watchlist = Movie::orderBy('created_at','desc')
-                            ->where('status', 'false')
-                            ->paginate(10);                                 //Maar 10 Posts per pagina.
+    //Flip Functie-Overzicht
+    public function flip($id){
+        $flip = Movie::find($id);
         
-        return view('pages/shared')->with('watchlist', $watchlist);                   //Post-variabele word meegegeven aan de view.
+        if ($flip->status == 'true'){
+            $flip->status = 'false';
+            $flip->save();
+        }
+        else{
+            $flip->status = 'true';
+            $flip->save();
+        }
+
+        //Herhaling van wat er al in watchlist() functie staat;
+        $user_id = auth()->user()->id;                                      //Hier krijg je de User_Id van de persoon die is ingelogt.
+        $movies = Movie::orderBy('title')->where('status', 'false')
+                                         ->where('user_id', $user_id)
+                                         ->get();
+        
+        return view('pages/watchlist')->with('names', $movies);             //Geef deze informatie door naar de Dashboard met de movies van die ene user.
     }
 
     //Tabel

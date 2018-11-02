@@ -123,11 +123,16 @@
             <div class="card-body">                                                                         <!-- De meegegeven variabele in controller -->
               @foreach($movies as $movie)   
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-s4">
+                      {!!Form::open(['action'=>['MoviesController@flip', $movie->id], 'method'=> 'POST', 'enctype'=> 'multipart/form-data'])!!}
+                          {{Form::submit('Not Watched',['class'=> 'btn btn-primary'])}}
+                      {!!Form::close()!!}                      
+                    </div>
+                    <div class="col-s4">
                       <a href="/overzicht/{{$movie->id}}">{{$movie->title}}</a>                                 <!-- Movie naam in de database -->                                                                                                            
                     </div>
 
-                    <div class="col-6"> 
+                    <div class="col-s4"> 
                       <a href="/overzicht/{{$movie->id}}/edit" class="btn btn-default">Edit</a>
                     </div>
                 </div>
