@@ -38,8 +38,9 @@ Route::post('/watchlist/{id}', ['uses' => 'WatchlistController@flip']); //flip-f
 
 //DropDown-Pagina
 Route::get('/overzicht', 'MoviesController@overzicht');
-Route::post('/filter', 'MoviesController@overzicht');
+Route::post('/overzicht', 'MoviesController@overzicht');
 Route::get('/list', 'MoviesController@list');
+Route::post('/list/search', 'MoviesController@search');
 
 //Shared List
 Route::get('/sharedlist','WatchlistController@shared');

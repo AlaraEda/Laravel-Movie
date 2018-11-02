@@ -6,8 +6,10 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Already Watched Movies</h1>
-    
+<h1>Already Watched Movies</h1>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <div class="container">
     <div class="row justify-content-center">
         <p>In here you can find a  list of all the movies I've watched on alphateical order.</p>
@@ -16,8 +18,25 @@
                 <div class="card-header">Watched Movies</div>
                 <a href="/list/create" class="btn btn-primary">Add Movies</a>
                 <div class="card-body">
+                    <div class= "row">
+                        <div class="col">
+                        <h3> Count by title</h3>
+                        </div>
+                        <div class= "col">
+                            {!!Form::open(['action'=>'MoviesController@search', 'method'=> 'POST', 'enctype'=> 'multipart/form-data'])!!}
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons" name="search">
+                                <label class="btn btn-dark" name="search">
+                                <input type="text" placeholder="Search..." name="search" value='' id="option1" autocomplete="off" active>
+                                </label>
+                            </div>
+                            
+                            <button class="btn btn-dark" type="submit"><i class="fa fa-search"></i></button>
+                            {!! Form::close() !!}
+                        </div>
+                    </div>
                     
-                    <h3> Count by title</h3>
+                    <br>
+
                     <table class ="table table-hover">
                         <thead class="thead-dark">
                             <tr>

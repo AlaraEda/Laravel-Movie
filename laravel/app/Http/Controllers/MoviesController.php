@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;     //Storage of Photo's library
 use App\Movie;                              //Zodat Movie.php gebruikt wordt
-use App\User;                              //Zodat Movie.php gebruikt wordt
+use App\User;                               //Zodat Movie.php gebruikt wordt
 use DB;                                     //SQL word gebruikt inplaats van Eloquent
 
 
@@ -40,15 +40,40 @@ class MoviesController extends Controller
                 ->where('user_id', $user_id)
                 ->get();
         }else{                                                                  //Als je op een letter-filter hebt geklikt;                                                      
-            $movies = DB::table('movies')
+            $movies = Movie::orderBy('title')
                 ->where('title', 'like', $search.'%')                           //Zoek naar een titel die begint met de eerst gegeven letter.
                 ->where('status', 'true')
                 ->where('user_id', $user_id)
                 ->get();
+            
+            /*
+            $movies = DB::table('movies')
+                ->where('title', 'like', $search.'%')                           
+                ->where('status', 'true')
+                ->where('user_id', $user_id)
+                ->get();
+            */
         }
         return view ("pages/overzicht")->with('movies', $movies);
     }
 
+    //Search-Bar van List
+    public function search(Request $request){
+        //dd($request);
+        $search = $request->input('search');
+
+        if($search != ''){
+            $movies = Movie::orderBy('title')
+            ->where('title', 'like', $search.'%')
+            ->orWhere('genre', 'like', $search.'%')
+            ->orWhere('score', 'like', $search.'%')
+            ->get();
+        }else{
+            $movies = [];
+        }
+
+        return view('pages/list')->with('movies', $movies);
+    }
 
     //Flip Functie-Overzicht
     public function flip($id){
@@ -65,11 +90,12 @@ class MoviesController extends Controller
 
         //Herhaling van wat er al in watchlist() functie staat;
         $user_id = auth()->user()->id;                                          //Hier krijg je de User_Id van de persoon die is ingelogt.
-        $movies = Movie::orderBy('title')->where('status', 'false')
-                                         ->where('user_id', $user_id)
-                                         ->get();
+        $movies = Movie::orderBy('title')
+                ->where('status', 'false')
+                ->where('user_id', $user_id)
+                ->get();
         
-        return view('pages/watchlist')->with('names', $movies);
+        return view('pages/overzicht')->with('names', $movies);
     }
 
     //Tabel
@@ -108,7 +134,7 @@ class MoviesController extends Controller
         heeft geklikt- door in de functie doormiddel van de parameters.*/
         
         //Validatie -->Zijn alle velden ingevuld?
-        $this ->validate($request,[                                          //In de array staan de regels waar de form zich aan moet houden.
+        $this ->validate($request,[                                           //In de array staan de regels waar de form zich aan moet houden.
             'title' => 'required'     
         ]);
 
@@ -157,7 +183,7 @@ class MoviesController extends Controller
     {
         /*Dus wanneer je /movie/1 schrijft bij je url krijg 
         je alle posts gegevens die gelinkt staan aan id=1 */
-        $movie = Movie::find($id);                                            //Vind Movie doormiddel van ID
+        $movie = Movie::find($id);                                              //Vind Movie doormiddel van ID
         
         return view('movies.show')->with('movies', $movie);  
     }
@@ -177,7 +203,7 @@ class MoviesController extends Controller
             return redirect('/list')->with('error', 'Unauthorized Page');       //Redirect naar /list met error
         }
 
-        return view('movies/edit')->with('movies', $Movie);                      //Word doorgestuurd naar de Edit url van movie met de oude data
+        return view('movies/edit')->with('movies', $Movie);                     //Word doorgestuurd naar de Edit url van movie met de oude data
     }
 
     /**
