@@ -13,12 +13,12 @@
     </div>
     <div class ="col-md-auto">
       <!-- Quick Movie Add -->
-      {!! Form::open(['action'=>'MoviesController@store', 'method'=>'POST', 'enctype'=>'multipart/form-data']) !!}
+      {!!Form::open(['action'=>'MoviesController@store', 'method'=>'POST', 'enctype'=>'multipart/form-data'])!!}
           <div class="form-group">
               <label><b>Add Movie: </b></label>
               <input type="text" name="title" value="" placeholder="Movie Titel..."><br>
           </div>
-      {!! Form::close() !!}
+      {!!Form::close()!!}
     </div>
   </div>
 

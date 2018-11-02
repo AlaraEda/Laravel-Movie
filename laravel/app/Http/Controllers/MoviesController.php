@@ -8,7 +8,6 @@ use App\Movie;                              //Zodat Movie.php gebruikt wordt
 use App\User;                               //Zodat Movie.php gebruikt wordt
 use DB;                                     //SQL word gebruikt inplaats van Eloquent
 
-
 class MoviesController extends Controller
 {
     /**

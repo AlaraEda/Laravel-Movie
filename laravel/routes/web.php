@@ -20,15 +20,20 @@
 |go to a certain controller function & then return the view.
 |
 |php artisan make:controller PagesController
+|
+|Get       = URL ophalen
+|Post      = Data versturen
+|Resource  = Alle Functies in de controler gebruiken
 |-------------------------------------------------------------------------
 */
 
 Route::get('/', 'PagesController@index');                               //De functie "index" van de PagesController 
 
-//DropDown-Pagina's
+//Overzicht
 Route::resource('/overzicht','MoviesController');                       //Alle Film-Namen
+Route::get('/overzicht', 'MoviesController@overzicht');
 Route::post('/overzicht/{id}', ['uses' => 'MoviesController@flip']);    //flip-functie
-Route::resource('/list','MoviesController');                            //Tabel-Pagina
+
 //Route::resource('/genre','MoviesController');                         //Gecategoriseerd
 
 //Watchlist-Page
@@ -36,13 +41,14 @@ Route::resource('/watchlist', 'WatchlistController');                   //Watchl
 Route::get('/watchlist', 'WatchlistController@watchlist');
 Route::post('/watchlist/{id}', ['uses' => 'WatchlistController@flip']); //flip-functie
 
-//DropDown-Pagina
-Route::get('/overzicht', 'MoviesController@overzicht');
-Route::post('/overzicht', 'MoviesController@overzicht');
-Route::get('/list', 'MoviesController@list');
-Route::post('/list/search', 'MoviesController@search');
-
 //Shared List
 Route::get('/sharedlist','WatchlistController@shared');
+
+//Admin-page
+Route::group(['middleware'=> ['auth','admin']], function(){       //achter je route zit een middleware achter. 
+    Route::resource('/list','MoviesController');                            //Tabel-Pagina
+    Route::get('/list', 'MoviesController@list');
+    Route::post('/list', 'MoviesController@search');
+});
 
 Auth::routes();                                                         //Automatisch gekomen bij de download (php artisan route:list)
