@@ -23,30 +23,25 @@
 |-------------------------------------------------------------------------
 */
 
-Route::get('/', 'PagesController@index');                     //De functie naam is "index" op de PagesController die 
+Route::get('/', 'PagesController@index');                               //De functie "index" van de PagesController 
 
 //DropDown-Pagina's
-Route::resource('/overzicht','MoviesController');           //Alle Film-Namen
+Route::resource('/overzicht','MoviesController');                       //Alle Film-Namen
 Route::post('/overzicht/{id}', ['uses' => 'MoviesController@flip']);    //flip-functie
-Route::resource('/list','MoviesController');                //Tabel-Pagina
-//Route::resource('/genre','MoviesController');               //Gecategoriseerd
+Route::resource('/list','MoviesController');                            //Tabel-Pagina
+//Route::resource('/genre','MoviesController');                         //Gecategoriseerd
 
 //Watchlist-Page
-Route::resource('/watchlist', 'WatchlistController');                       //Watchlist-page
+Route::resource('/watchlist', 'WatchlistController');                   //Watchlist-page
 Route::get('/watchlist', 'WatchlistController@watchlist');
-Route::post('/watchlist/{id}', ['uses' => 'WatchlistController@flip']);    //flip-functie
+Route::post('/watchlist/{id}', ['uses' => 'WatchlistController@flip']); //flip-functie
 
 //DropDown-Pagina
 Route::get('/overzicht', 'MoviesController@overzicht');
 Route::post('/filter', 'MoviesController@overzicht');
 Route::get('/list', 'MoviesController@list');
 
-//Radomizer
-Route::get('/dashboard', 'DashboardController@index');
-
 //Shared List
 Route::get('/sharedlist','WatchlistController@shared');
 
-Route::resource('/posts', 'PostsController');                //posts-route kan je nu alle functies van PostsController gebruiken.
-
-Auth::routes();                                             //Automatisch gekomen bij de download (php artisan route:list)
+Auth::routes();                                                         //Automatisch gekomen bij de download (php artisan route:list)

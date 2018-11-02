@@ -17,9 +17,9 @@ class MoviesController extends Controller
      * @return void
      */
     public function __construct()
-    {
-                                                                            //Blokkeer dashboard-data wanneer User niet ingelogt. 
-        $this->middleware('auth',['except'=>['index','show']]);             //behalve de index-view (de lijst van blogposts) & de show-view(het laten zien van indivduele posts)
+    {                                                       
+        $this->middleware('auth');                                              //Blokkeer alle pages wanneer User niet is ingelogt.
+        //$this->middleware('auth',['except'=>['index','show']]);               //Blokkeer alles BEHALVE index & show-functies als User niet is gelogd.
     }
 
     /**
@@ -28,17 +28,20 @@ class MoviesController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    //Eerste wat je ziet wanneer je url: /overzicht typt
-    public function overzicht(Request $request){
-        $user_id = auth()->user()->id;                                                                      //Hier krijg je de User_Id van de persoon die is ingelogt.
+    //url: /overzicht
+    public function overzicht(Request $request){                                //Krijg Filter-Request binnen
+        $user_id = auth()->user()->id;                                          //Hier krijg je de User_Id van de persoon die is ingelogt.
         
-        $search = $request->get('filter');
+        $search = $request->get('filter');                                      //Stop de value v/d request in $search                              
 
         if ($search === "ALLES"){
-            $movies = Movie::orderBy('title')->where('status', 'true')->where('user_id', $user_id)->get();
-        }else{
+            $movies = Movie::orderBy('title')
+                ->where('status', 'true')
+                ->where('user_id', $user_id)
+                ->get();
+        }else{                                                                  //Als je op een letter-filter hebt geklikt;                                                      
             $movies = DB::table('movies')
-                ->where('title', 'like', $search.'%')
+                ->where('title', 'like', $search.'%')                           //Zoek naar een titel die begint met de eerst gegeven letter.
                 ->where('status', 'true')
                 ->where('user_id', $user_id)
                 ->get();
@@ -46,9 +49,10 @@ class MoviesController extends Controller
         return view ("pages/overzicht")->with('movies', $movies);
     }
 
+
     //Flip Functie-Overzicht
     public function flip($id){
-        $flip = Movie::find($id);
+        $flip = Movie::find($id);                                               //Haal de gegevens op die gekoppeld staan aan de movie-id
         
         if ($flip->status == 'true'){
             $flip->status = 'false';
@@ -60,30 +64,29 @@ class MoviesController extends Controller
         }
 
         //Herhaling van wat er al in watchlist() functie staat;
-        $user_id = auth()->user()->id;                                      //Hier krijg je de User_Id van de persoon die is ingelogt.
+        $user_id = auth()->user()->id;                                          //Hier krijg je de User_Id van de persoon die is ingelogt.
         $movies = Movie::orderBy('title')->where('status', 'false')
                                          ->where('user_id', $user_id)
                                          ->get();
         
-        return view('pages/watchlist')->with('names', $movies);             //Geef deze informatie door naar de Dashboard met de movies van die ene user.
+        return view('pages/watchlist')->with('names', $movies);
     }
 
     //Tabel
     public function list()
     {
-        $movies = Movie::orderBy('created_at','desc')->paginate(10);           //Maar 10 Posts per pagina.
+        $movies = Movie::orderBy('created_at','desc')->paginate(10);           //Maar 10 movies per pagina.
         
         //Pas dit aan
-        return view('pages/list')->with('movies', $movies);                    //Movies variabele word meegegeven aan de. 
-                                                                               //En deze variabele word ook "movies" genoemd in je view template. 
-                                                                               //Waardoor je het in je template kan gebruiken.
-                                                                            }
+        return view('pages/list')->with('movies', $movies);
+    }
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     public function create()
     {
         return view('movies/create'); 
@@ -97,18 +100,19 @@ class MoviesController extends Controller
      */
 
     //Opslaan in database
+
     public function store(Request $request)
     {
         /* we stoppen de request die naar de MoviesController 
-        is gestuurd doordat iemand op de "submit"-button
-        door in de functie doormiddel van de parameters.*/
+        is gestuurd -doordat iemand op de "submit"-button 
+        heeft geklikt- door in de functie doormiddel van de parameters.*/
         
         //Validatie -->Zijn alle velden ingevuld?
         $this ->validate($request,[                                          //In de array staan de regels waar de form zich aan moet houden.
             'title' => 'required'     
         ]);
 
-        //Create-Post
+        //Create New Movie
         $movie = new Movie;                                                   //New Movie; kunnen we doen omdat we App\Movie(movie.php model) hebben staan boven aan de pagina)
         $movie->status = 'true';                                              //Status is qua default altijd "true"
         $movie->title = $request->input('title');                             //Schrijf in de nieuwe post de gegeven titel
@@ -137,13 +141,10 @@ class MoviesController extends Controller
             $movie->comments = $request->input('comments');                       
         }
 
-        
-        $movie->user_id = auth()->user()->id;                                 //We zetten geen 'request' want dit komt niet van de form.
-                                                                              //Sla het nummer(id) van de momenteel ingelogde user op in User_id
+        $movie->user_id = auth()->user()->id;                                //Sla het nummer(id) van de momenteel ingelogde user op in User_id     
+        $movie->save();                                                      //Save de gegevens van de nieuwe movie in database
 
-        $movie->save();                                                       //Save de gegevens van de nieuwe movie in database
-
-        return redirect('/list')->with('success', 'Movie Added');             //Word doorgestuurd naar /list-pagina met de succes-message
+        return redirect('/overzicht')->with('success', 'Movie Added');
     }
 
     /**
@@ -154,9 +155,9 @@ class MoviesController extends Controller
      */
     public function show($id)
     {
-        /*Dus wanneer je/posts/1 schrijft bij je url krijg 
+        /*Dus wanneer je /movie/1 schrijft bij je url krijg 
         je alle posts gegevens die gelinkt staan aan id=1 */
-        $movie = Movie::find($id);                                               //Vind Post doormiddel van ID
+        $movie = Movie::find($id);                                            //Vind Movie doormiddel van ID
         
         return view('movies.show')->with('movies', $movie);  
     }
@@ -171,10 +172,11 @@ class MoviesController extends Controller
     {
         $Movie = Movie::find($id);
 
-        //Check for correct user
+        //Check for correct user (overbodig)
         if(auth()->user()->id !=$Movie->user_id){                               //Als user_id niet hetzelfde is als movie_id...
             return redirect('/list')->with('error', 'Unauthorized Page');       //Redirect naar /list met error
         }
+
         return view('movies/edit')->with('movies', $Movie);                      //Word doorgestuurd naar de Edit url van movie met de oude data
     }
 
@@ -185,7 +187,7 @@ class MoviesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) //Dit doet basically hetzelfde als de store-functie
+    public function update(Request $request, $id)                               //Dit doet basically hetzelfde als de store-functie
     {
         //Validatie
         $this ->validate($request,[
@@ -193,16 +195,15 @@ class MoviesController extends Controller
         ]);
 
         // Create/Update Movie 
-        $movie = Movie::find($id);                                          //Vind de Movie op id doormiddel van het zoeken in de Movie Model
-        $movie -> title = $request->input('title');                         //Schrijf in de nieuwe post de gegeven titel
-        $movie -> genre = $request->input('genre');                         //Schrijf in de nieuwe post de gegeven genre
-        $movie -> score = $request->input('score');                         //Schrijf in de nieuwe post de gegeven score
-        $movie -> comments = $request->input('comments');                   //Schrijf in de nieuwe post de gegeven comments
+        $movie = Movie::find($id);                                              //Vind de Movie op id doormiddel van het zoeken in de Movie Model
+        $movie -> title = $request->input('title');                             //Schrijf in de nieuwe post de gegeven titel
+        $movie -> genre = $request->input('genre');                             //Schrijf in de nieuwe post de gegeven genre
+        $movie -> score = $request->input('score');                             //Schrijf in de nieuwe post de gegeven score
+        $movie -> comments = $request->input('comments');                       //Schrijf in de nieuwe post de gegeven comments
         
-        $movie -> save();                                                   //Save de gegevens van de nieuwe post in de database
+        $movie -> save();                                                       //Save de gegevens van de nieuwe post in de database
 
-        return redirect('/list')->with('success', 'Movie Updated');         //doorgestuurd naar /list met de succes-message
-
+        return redirect('/overzicht')->with('success', 'Movie Updated');        //Doorgestuurd naar /Overzicht met de succes-message
     }
 
     /**
@@ -211,15 +212,16 @@ class MoviesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function destroy($id)
     {
-        $movie = Movie::find($id);                                         //Find the post met post-id
+        $movie = Movie::find($id);                                              //Find the post met post-id
         
-        if(auth()->user()->id !=$movie->user_id){                          ///Als user_id niet hetzelfde is als post_id (anders kunnen andere mensen je post deleten)
-            return redirect('/list')->with('error', 'Unauthorized Page');  //Redirect naar /posts met error message.
+        if(auth()->user()->id !=$movie->user_id){                               //Als user_id niet hetzelfde is als post_id (anders kunnen andere mensen je post deleten)
+            return redirect('/')->with('error', 'Unauthorized Page');           //Redirect naar /home met error message.
         }
 
         $movie->delete();
-        return redirect('/list')->with('success', 'Movie Removed');    
+        return redirect('/overzicht')->with('success', 'Movie Removed');    
     }
 }

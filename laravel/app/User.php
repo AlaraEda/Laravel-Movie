@@ -30,14 +30,6 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
     
-    public function watchlist(){                                            //Relatie tussen user & movie tabel gecreeerd.
-        return $this ->hasMany('App\Watchlist');                        //Één heeft meerdere movie namen.
-    }
-
-    public function posts(){                                            //Relatie tussen User en Post tabel gecreeerd.                         
-        return $this->hasMany('App\Post');                              //Één User heeft meerdere (hasmany) Posts
-    }
-
     public function movies(){                                           //Relatie tussen user & movie tabel gecreeerd.
         return $this ->hasMany('App\Movie');                            //Één heeft meerdere movie namen.
     }
