@@ -26,7 +26,7 @@
   <br>
   
   <div class="row justify-content-center">
-    {!! Form::open(['url' => '/overzicht', 'method'=>'POST', 'role'=>'filter']) !!}
+    {!! Form::open(['url' => '/filter', 'method'=>'POST', 'role'=>'filter']) !!}
       <div class="btn-group btn-group-toggle" data-toggle="buttons" name="filter">
         <label class="btn btn-dark" name="filter" >
           <input type="radio" name="filter" value='ALLES' id="option1" autocomplete="off" active> ALL

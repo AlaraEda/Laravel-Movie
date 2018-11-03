@@ -90,11 +90,11 @@ class MoviesController extends Controller
         //Herhaling van wat er al in watchlist() functie staat;
         $user_id = auth()->user()->id;                                          //Hier krijg je de User_Id van de persoon die is ingelogt.
         $movies = Movie::orderBy('title')
-                ->where('status', 'false')
+                ->where('status', 'true')
                 ->where('user_id', $user_id)
                 ->get();
         
-        return view('pages/overzicht')->with('names', $movies);
+        return view('pages/overzicht')->with('movies', $movies);
     }
 
     //Tabel

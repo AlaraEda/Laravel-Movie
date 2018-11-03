@@ -33,6 +33,7 @@ Route::get('/', 'PagesController@index');                               //De fun
 Route::resource('/overzicht','MoviesController');                       //Alle Film-Namen
 Route::get('/overzicht', 'MoviesController@overzicht');
 Route::post('/overzicht/{id}', ['uses' => 'MoviesController@flip']);    //flip-functie
+Route::post('/filter', 'MoviesController@overzicht');                   //filter
 
 //Route::resource('/genre','MoviesController');                         //Gecategoriseerd
 
