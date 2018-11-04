@@ -5,7 +5,7 @@
     <h1>Shared Watchlist</h1>
     <br>
     <!--Als er posts zijn in de db-->
-    @if(count($watchlist)>0)
+    @if(count($watchlist)>4)
         @foreach($watchlist as $watch)
             <div class="well">
                 <div class="row">                   
@@ -28,6 +28,6 @@
         {{-- {{$watchlist->links(10)}} --}}
 
     @else
-        <p>No Movies found</p>
+        <p>No Movies found, you need at least 5 movies in your watchlist to share.</p>
     @endif
 @endsection

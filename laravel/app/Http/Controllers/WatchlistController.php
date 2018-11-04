@@ -40,21 +40,46 @@ class WatchlistController extends Controller
     //Sharing the Watchlist-page
     public function shared(){
 
-        $user_id = auth()->user()->id;                                       //Hier krijg je de User_Id van de persoon die is ingelogt.
-        $watchlist1 = Movie::orderBy('created_at','desc')
+        $user_id = auth()->user()->id;                                       //De User_Id van de ingelogte persoon.
+
+        $watchlist1 = Movie::orderBy('created_at','desc')                    //Vind de posts (die in de watchlist staan) die horen bij de ingelogde user
                             ->where('status', 'false')
                             ->where('user_id', $user_id)
                             ->get();                                  
         
-        $watchlist2 = Movie::orderBy('created_at','desc')
+        //Share1 houd in dat de user mag sharen
+        $watchlist2 = Movie::orderBy('created_at','desc')                   //Vind de posts (die in de wachtlist staan) van alle users waar kolom-share 1 is.
                     ->where('status', 'false')
+                    ->where('share', 1)
                     ->get();
 
-        if(count($watchlist1)>4){                                           //Als Ingelogde user meer dan 4 posts heeft
-            return view('pages/shared')->with('watchlist', $watchlist2);    //Laat dan alles zien
+        if(count($watchlist1)>4){                                           //Als Ingelogde user meer dan 4 posts heeft.
+            
+            $la = Movie::where('user_id', $user_id)->get();                 //Selecteer alle posts van de ingelogde user
+
+            foreach($la as $lol){
+                if($lol->share == 0){                                       //Als post van de ingelogde user 0 is
+                    $lol->share = 1;                                        //Verander post naar 1
+                    
+                    $lol->save();
+                }
+
+            }
+            return view('pages/shared')->with('watchlist', $watchlist2);    //Laat de meer dan 5 posts zien.
         }
-        else{
-            return view('pages/shared')->with('watchlist', $watchlist1);    //Anders alleen de posts van de user zelf.
+        else{                                                               //Als ingelogte user niet meer dan 4 posts heeft.
+
+            $la = Movie::where('user_id', $user_id)->get();                 //Selecteer alle posts van de ingelogde user
+
+            foreach($la as $lol){
+                if($lol->share == 1){                                       //Als de posts geshared mocht worden
+                    $lol->share = 0;                                        //Share posts niet
+                    
+                    $lol->save();
+                }
+
+            }
+            return view('pages/shared')->with('watchlist', $watchlist1);    //Laat alleen je eigen posts zien, niet die van anderen.
         }
     }
 
