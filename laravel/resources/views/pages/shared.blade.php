@@ -25,9 +25,9 @@
         @endforeach
 
         <!--Creeert pagina-wissel (1,2,3 etc...) bij meer dan 10 posts -->
-        {{$watchlist->links()}}
+        {{-- {{$watchlist->links(10)}} --}}
 
     @else
-        <p>No Posts found</p>
+        <p>No Movies found</p>
     @endif
 @endsection

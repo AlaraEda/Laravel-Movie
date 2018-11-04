@@ -34,17 +34,28 @@ class WatchlistController extends Controller
                 ->where('user_id', $user_id)
                 ->get();                                                     //De ID van de user is nu verbonden met de watchlist-tabel
 
-        return view('pages/watchlist')->with('names', $movies);
-                                                                             
+        return view('pages/watchlist')->with('names', $movies);                                                                             
     }
 
     //Sharing the Watchlist-page
     public function shared(){
-        $watchlist = Movie::orderBy('created_at','desc')
+
+        $user_id = auth()->user()->id;                                       //Hier krijg je de User_Id van de persoon die is ingelogt.
+        $watchlist1 = Movie::orderBy('created_at','desc')
                             ->where('status', 'false')
-                            ->paginate(10);                                  //Maar 10 Posts per pagina.
+                            ->where('user_id', $user_id)
+                            ->get();                                  
         
-        return view('pages/shared')->with('watchlist', $watchlist);
+        $watchlist2 = Movie::orderBy('created_at','desc')
+                    ->where('status', 'false')
+                    ->get();
+
+        if(count($watchlist1)>4){                                           //Als Ingelogde user meer dan 4 posts heeft
+            return view('pages/shared')->with('watchlist', $watchlist2);    //Laat dan alles zien
+        }
+        else{
+            return view('pages/shared')->with('watchlist', $watchlist1);    //Anders alleen de posts van de user zelf.
+        }
     }
 
     //Flip Functie-Watchlist
