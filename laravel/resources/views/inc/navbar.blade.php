@@ -13,24 +13,24 @@
             <ul class="navbar-nav mr-auto">
                 @guest
                 @else
-                <li class="nav-item dropdown">
+                {{-- <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Bekeken</a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="/overzicht">Overzicht Films</a>
                         <a class="dropdown-item" href="/genre">Genre's</a>
                         <!-- <div class="dropdown-divider"></div> -->
                     </div>
-                </li>
+                </li> --}}
                 <!--
                 <li class="nav-item">
                   <a class="nav-link" href="/services">Gedeelde Lijst</a>
                 </li>
                 -->
                 <li class="nav-item">
-                  <a class="nav-link" href="/watchlist">Watchlist</a>
+                  <a class="nav-link" href="/overzicht">Overzicht Films</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/dashboard">Randomizer</a>
+                  <a class="nav-link" href="/watchlist">Watchlist</a>
                 </li>
                 @endguest
             </ul>
@@ -59,7 +59,7 @@
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/informatie">Tabel-Films</a>
-                        <a class="dropdown-item" href="#">Instellingen</a>
+                        {{-- <a class="dropdown-item" href="#">Instellingen</a> --}}
 
                         <!-- Log-out Button -->
                         <a class="dropdown-item" href="{{ route('logout') }}"

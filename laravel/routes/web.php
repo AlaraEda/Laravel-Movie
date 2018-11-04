@@ -29,6 +29,7 @@
 
 Route::get('/', 'PagesController@index');                               //De functie "index" van de PagesController 
 
+
 //Overzicht
 Route::resource('/overzicht','MoviesController');                       //Alle Film-Namen
 Route::get('/overzicht', 'MoviesController@overzicht');
