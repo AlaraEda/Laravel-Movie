@@ -1,7 +1,9 @@
-<!--Check
-- Error-array (bij een gefaalde validatie
-- Session Values (succes/error)
-- -->
+<!--
+|CHECK
+|
+|Error-array (bij een gefaalde validatie
+|Session Values (succes/error)
+-->
 
 @if(count($errors)>0)
     @foreach($errors->all() as $error)

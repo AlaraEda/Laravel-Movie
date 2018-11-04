@@ -7,7 +7,7 @@
     <!-- CSRF Token (security reasons)-->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Movie') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -19,6 +19,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
+
 <body>
     <div id="app">
         @include('inc/navbar')
@@ -26,15 +27,19 @@
             @include('inc/messages')
             <br>
             <!-- 
-            Installeer extentie voor VSCode
-            ext install laravel-blade
-            
-            De "Pages" krijgen allemaal deze lay-out.
+            |-------------------------------------------
+            |Installeer extentie voor VSCode
+            |ext install laravel-blade
+            |
+            |De "Pages" krijgen allemaal deze lay-out.
+            |--------------------------------------------
             -->
             @yield('content')
         </div>
         
-        <!--Zodat ik in me create.blade.app de article-ckeditor kan gebruiken in me form 
+        <!--
+        Zodat ik in me create.blade.app de article-ckeditor kan gebruiken in me forms: 
+        
         <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
         <script>
             CKEDITOR.replace( 'article-ckeditor' );

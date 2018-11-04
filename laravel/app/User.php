@@ -1,5 +1,7 @@
 <?php
 
+// User.php Model
+
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
@@ -27,10 +29,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-
-    //Creating a relationship between post and user
-    //App\Post is de model van de Post oftewel de file Post.php
-    public function posts(){                                                //
-        return $this->hasMany('App\Post');                                  //Één User heeft meerdere Posts
+    
+    public function movies(){                                           //Relatie tussen user & movie tabel gecreeerd.
+        return $this ->hasMany('App\Movie');                            //Één heeft meerdere movie namen.
     }
+
 }

@@ -9,39 +9,47 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
+| URL'S, het systeem begint hier.
+|
 */
 
-Route::get('/', function () {
-    return view('welcome');
+/* 
+|------------------------------------------------------------------------
+|A person never wants to return a view from their route; 
+|Wat you want is to create a controller than set the route to 
+|go to a certain controller function & then return the view.
+|
+|php artisan make:controller PagesController
+|
+|Get       = URL ophalen
+|Post      = Data versturen
+|Resource  = Alle Functies in de controler gebruiken
+|-------------------------------------------------------------------------
+*/
+
+Route::get('/', 'PagesController@index');                               //De functie "index" van de PagesController 
+
+
+//Overzicht
+Route::resource('/overzicht','MoviesController');                       //Alle Film-Namen
+Route::get('/overzicht', 'MoviesController@overzicht');
+Route::post('/overzicht/{id}', ['uses' => 'MoviesController@flip']);    //flip-functie
+Route::post('/filter', 'MoviesController@overzicht');                   //filter
+
+//Route::resource('/genre','MoviesController');                         //Gecategoriseerd
+
+//Watchlist-Page
+Route::resource('/watchlist', 'WatchlistController');                   //Watchlist-page
+Route::get('/watchlist', 'WatchlistController@watchlist');
+Route::post('/watchlist/{id}', ['uses' => 'WatchlistController@flip']); //flip-functie
+
+//Shared List
+Route::get('/sharedlist','WatchlistController@shared');
+
+//Admin-page
+Route::group(['middleware'=> ['auth','admin']], function(){             //Achter je route zit een middleware achter. 
+    Route::resource('informatie','InformatieController');               //Tabel-Pagina
+    Route::post('/informatie/search', 'InformatieController@search');
 });
 
-/*Dynamic paramaters Route
-Als je "http://movie.work/users/Alara" intypt krijg je "This is user Alara te lezen" */
-Route::get('/users/{id}', function ($id) {
-    return 'This is user '.$id;        
-});
-
-/* A person never wants to return a view from their route; 
-Wat you want is to create a controller than set the route to 
-got to a certain controller function & then return the view.
-
-php artisan make:controller PagesController*/
-
-//Door dit te doen ga je naar view van pages
-// Route::get('/about', function () {
-//     return view('pages/about');         //Je kan ook pages.about typen
-// });
-
-//De functie naam is "index" op de PagesController. Door dit te doen is het geconnecteerd met de Controller's Method
-Route::get('/', 'PagesController@index');
-Route::get('/about', 'PagesController@about');
-Route::get('/services', 'PagesController@services');
-
-//We want to map posts to a controller;
-//Doing this creates all the routes we need for the controller
-//Alle functies van de PostsController hebben nu een route
-//Wanneer je /Posts intypt bij url word je doorgestuurd naar PostsController.php
-Route::resource('posts', 'PostsController'); 
-Auth::routes();
-
-Route::get('/dashboard', 'DashboardController@index');
+Auth::routes();                                                         //Automatisch gekomen bij de download (php artisan route:list)
