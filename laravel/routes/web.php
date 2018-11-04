@@ -46,10 +46,9 @@ Route::post('/watchlist/{id}', ['uses' => 'WatchlistController@flip']); //flip-f
 Route::get('/sharedlist','WatchlistController@shared');
 
 //Admin-page
-Route::group(['middleware'=> ['auth','admin']], function(){       //achter je route zit een middleware achter. 
-    Route::resource('/list','MoviesController');                            //Tabel-Pagina
-    Route::get('/list', 'MoviesController@list');
-    Route::post('/list', 'MoviesController@search');
+Route::group(['middleware'=> ['auth','admin']], function(){             //Achter je route zit een middleware achter. 
+    Route::resource('informatie','InformatieController');               //Tabel-Pagina
+    Route::post('/informatie/search', 'InformatieController@search');
 });
 
 Auth::routes();                                                         //Automatisch gekomen bij de download (php artisan route:list)

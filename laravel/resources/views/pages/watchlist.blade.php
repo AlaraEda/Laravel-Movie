@@ -56,12 +56,12 @@
                                 <tr>
                                     <td>
                                         {!!Form::open(['action'=>['WatchlistController@flip', $movieName->id], 'method'=> 'POST', 'enctype'=> 'multipart/form-data'])!!}
-                                            {{Form::submit('Watched',['class'=> 'btn btn-primary'])}}
+                                            {{Form::submit('Watched',['class'=> 'btn btn-dark'])}}
                                         {!!Form::close()!!}
                                     </td>
                                     <td><a href="/watchlist/{{$movieName->id}}">{{$movieName->title}}</a></td>                              <!-- Movie naam in de database -->
                                     <td>{{$movieName->genre}}</td>
-                                    <td><a href="/watchlist/{{$movieName->id}}/edit" class="btn btn-default">Edit</a></td>
+                                    <td><a class="btn btn-primary" href="/watchlist/{{$movieName->id}}/edit" role="button">Edit</a></td>
                                     <td>
                                         {!!Form::open(['action'=>['WatchlistController@destroy',$movieName->id], 'method'=> 'POST', 'class'=>'pull-right'])!!}
                                             {{Form::hidden('_method', 'DELETE')}}

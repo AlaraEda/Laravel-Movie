@@ -15,19 +15,19 @@
         
         <div class="form-group">
             <!-- De labelnaam is title. De echte tekst word Title-->
-            {{Form::label('title', 'Title:')}}
+            <b>{{Form::label('title', 'Title:')}}</b>
 
             <!--Je wilt weten weten wat de titel is van de post aangezien je dat wilt aanpassen.-->
             {{Form::text('title',$watch->title ,['class'=> 'form-control', 'placeholder'=>'Title'])}}
         </div>
 
         <div class="form-group">
-            {{Form::label('genre', 'Genre:')}}
+            <b>{{Form::label('genre', 'Genre:')}}</b>
             {{Form::text('genre',$watch->genre ,['class'=> 'form-control', 'placeholder'=>'Genre'])}}
         </div>
 
         <div class="form-group">
-            {{Form::label('comments', 'Comments:')}}
+            <b>{{Form::label('comments', 'Comments:')}}</b>
             {{Form::textarea('comments', $watch->comments,['id'=>'article-ckeditor','class'=> 'form-control', 'placeholder'=>'Comment Text'])}}
         </div>
 

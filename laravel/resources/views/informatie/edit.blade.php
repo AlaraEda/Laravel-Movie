@@ -11,26 +11,31 @@
     |is om te weten welke post (met welke id) word geupdate
     |--------------------------------------------------------------
     -->
-    {!! Form::open(['action'=>['MoviesController@update', $movies->id], 'method'=>'POST','enctype'=>'multipart/form-data']) !!}
-        
-        <div class="form-group">
-            <!-- De labelnaam is title. De echte tekst word Title-->
-            <b>{{Form::label('title', 'Title:')}}</b>
+    {!! Form::open(['action'=>['InformatieController@update', $movies->id], 'method'=>'POST','enctype'=>'multipart/form-data']) !!}
+        <div class="row">
+            <div class="form-group col-sm">
+                <b>{{Form::label('status', 'Status:')}}</b>
+                {{Form::text('status',$movies->status,['class'=> 'form-control', 'placeholder'=>'True/False'])}}
+            </div>
 
-            <!--Je wilt weten weten wat de titel is van de post aangezien je dat wilt aanpassen.-->
-            {{Form::text('title',$movies->title ,['class'=> 'form-control', 'placeholder'=>'Title'])}}
+            <div class="form-group col-sm">
+                <!-- De labelnaam is title. De echte tekst word Title-->
+                <b>{{Form::label('title', 'Title:')}}</b>
+
+                <!--Je wilt weten weten wat de titel is van de post aangezien je dat wilt aanpassen.-->
+                {{Form::text('title',$movies->title ,['class'=> 'form-control', 'placeholder'=>'Title'])}}
+            </div>
+
+            <div class="form-group col-sm">
+                <b>{{Form::label('score', 'Score:')}}</b>
+                {{Form::text('score',$movies->score ,['class'=> 'form-control', 'placeholder'=>'Score'])}}
+            </div>
+
+            <div class="form-group col-sm">
+                <b>{{Form::label('genre', 'Genre:')}}</b>
+                {{Form::text('genre',$movies->genre ,['class'=> 'form-control', 'placeholder'=>'Genre'])}}
+            </div>
         </div>
-
-        <div class="form-group">
-            <b>{{Form::label('genre', 'Genre:')}}</b>
-            {{Form::text('genre',$movies->genre ,['class'=> 'form-control', 'placeholder'=>'Genre'])}}
-        </div>
-
-        <div class="form-group">
-            <b>{{Form::label('score', 'Score:')}}</b>
-            {{Form::text('score',$movies->score ,['class'=> 'form-control', 'placeholder'=>'Score'])}}
-        </div>
-
 
         <div class="form-group">
             <b>{{Form::label('comments', 'Comments:')}}</b>

@@ -11,13 +11,13 @@
             
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
-                    
+                @guest
+                @else
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Bekeken</a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="/overzicht">Overzicht Films</a>
                         <a class="dropdown-item" href="/genre">Genre's</a>
-                        <a class="dropdown-item" href="/list">Tabel-Films</a>
                         <!-- <div class="dropdown-divider"></div> -->
                     </div>
                 </li>
@@ -32,6 +32,7 @@
                 <li class="nav-item">
                   <a class="nav-link" href="/dashboard">Randomizer</a>
                 </li>
+                @endguest
             </ul>
 
             <!-- Right Side Of Navbar -->
@@ -57,7 +58,7 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/list">Tabel-Films</a>
+                        <a class="dropdown-item" href="/informatie">Tabel-Films</a>
                         <a class="dropdown-item" href="#">Instellingen</a>
 
                         <!-- Log-out Button -->

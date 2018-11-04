@@ -9,8 +9,11 @@
 
   <div class="row justify-content-center">
     <div class="col">
-      <h1>Overzicht Watched Movies</h1>
+      <h1>Overzicht Watched Movies <a class="btn btn-light" href="/overzicht/create" role="button">Create</a></h1>
     </div>
+    
+    
+    
     <div class ="col-md-auto">
       <!-- Quick Movie Add -->
       {!!Form::open(['action'=>'MoviesController@store', 'method'=>'POST', 'enctype'=>'multipart/form-data'])!!}
@@ -26,6 +29,7 @@
   <br>
   
   <div class="row justify-content-center">
+    
     {!! Form::open(['url' => '/filter', 'method'=>'POST', 'role'=>'filter']) !!}
       <div class="btn-group btn-group-toggle" data-toggle="buttons" name="filter">
         <label class="btn btn-dark" name="filter" >
@@ -116,31 +120,46 @@
       <button class="btn btn-light" type="submit">Search</button>
     {!! Form::close() !!}
 
-    <br><br>
-    <div class="col-md-4">                                                                                  <!-- 1 Card aanmaak is 4 col's lang waardoor er 3 naast elkaar past. Daarna gaat het noodgedwongen naar een volgende regel. -->
-          <div class="card bg-light mb-3" style="max-width: 23rem;">                                        <!-- Card in de vrijgemaakte col stoppen -->
-            <div class="card-header text-white bg-dark mb-3"></div>                                         <!-- Card name -->
-            <div class="card-body">                                                                         <!-- De meegegeven variabele in controller -->
-              @foreach($movies as $movie)   
-                <div class="row">
-                    <div class="col-s4">
+    <br><br><br>
+  
+      <div class="card bg-light mb-3">                                        <!-- Card in de vrijgemaakte col stoppen -->
+        <div class="card-header text-white bg-dark mb-3"></div>                                         <!-- Card name -->
+        <div class="card-body">                                                                         <!-- De meegegeven variabele in controller -->
+          
+          <div class="row">
+            <table class="table table-borderless">
+              <thead></thead>
+              <tbody>
+                @foreach($movies as $movie)   
+                <tr>
+                  <td scope="row"> 
                       {!!Form::open(['action'=>['MoviesController@flip', $movie->id], 'method'=> 'POST', 'enctype'=> 'multipart/form-data'])!!}
-                          {{Form::submit('Not Watched',['class'=> 'btn btn-primary'])}}
-                      {!!Form::close()!!}                      
-                    </div>
-                    <div class="col-s4">
-                      <a href="/overzicht/{{$movie->id}}">{{$movie->title}}</a>                                 <!-- Movie naam in de database -->                                                                                                            
-                    </div>
-
-                    <div class="col-s4"> 
-                      <a href="/overzicht/{{$movie->id}}/edit" class="btn btn-default">Edit</a>
-                    </div>
-                </div>
-                <br>
-              @endforeach  
-            </div>
+                        {{Form::submit('Not Watched',['class'=> 'btn btn-dark'])}}
+                    {!!Form::close()!!}    
+                  </td>
+                  <th scope="row">
+                    <a href="/overzicht/{{$movie->id}}">{{$movie->title}}</a>                                 <!-- Movie naam in de database -->
+                  </th>
+                  <td scope="row">{{$movie->score}}</td>
+                  <th scope="row">
+                    <a class="btn btn-primary" href="/overzicht/{{$movie->id}}/edit" role="button">Edit</a>
+                  </th>
+                  <td>
+                      {!!Form::open(['action'=>['MoviesController@destroy',$movie->id], 'method'=> 'POST', 'class'=>'pull-right'])!!}
+                          {{Form::hidden('_method', 'DELETE')}}
+                          {{Form::submit('X',['class'=> 'btn btn-danger'])}}
+                      {!!Form::close()!!}
+                  </td>
+                </tr>
+                @endforeach
+              </tbody>
+            </table>
           </div>
-    </div>    
+          
+          
+        </div>
+      </div>
+    
     <br> 
   </div>                                                                                         
 @endsection

@@ -3,19 +3,19 @@
 <!-- Wat je te zien krijgt wanneer je op een Post klikt -->
 
 @section('content')
-    <a href="/movies" class="btn btn-default">Go Back</a>
+    <a href="/overzicht" class="btn btn-default">Go Back</a>
     
     <h1>{{$movies->title}}</h1>
 
     <br>
-    <br>
-    <br>
 
-    <!-- Body -->
-    <div>
-        <!-- Als je het tussen haakjes zet dan zie je het in HTML-Code. -->
-        {!!$movies->body!!}
-    </div>
+    <!-- genre -->
+    <div><b>Movie Genre:</b>{!!$movies->genre!!}</div>
+    <div><b>Movie Score: </b>{!!$movies->score!!}</div>
+    <br>
+    <div><b>Movie Comments: </b>
+    <br>
+    {!!$movies->comments!!}</div>
 
     <hr><!--Linebreak -->
     <small>Written on {{$movies->created_at}} by {{$movies->user->name}}</small>
@@ -31,10 +31,11 @@
         -->
         @if(Auth::user()->id == $movies->user_id)                                                  
             
-            <!-- Post-Editen knop-->
-            <a href="/overzicht/{{$movies->id}}/edit" class="btn btn-default">Edit</a>
-
-
+        <div class="row">
+            <div class="col-1">
+                <!-- Post-Editen knop-->
+                <a class="btn btn-primary" href="/overzicht/{{$movies->id}}/edit" role="button">Edit</a>
+            </div>
             <!-- 
             |
             | Post deleten-Knop:
@@ -42,11 +43,14 @@
             | de "destroy"functie die in de PostController staat
             |
             -->
+            
+            <div>
             {!!Form::open(['action'=>['MoviesController@destroy',$movies->id], 'method'=> 'POST', 'class'=>'pull-right'])!!}
                 {{Form::hidden('_method', 'DELETE')}}
                 {{Form::submit('Delete',['class'=> 'btn btn-danger'])}}
             {!!Form::close()!!}
-            
+            </div>
+        </div>
         @endif
     @endif
 @endsection

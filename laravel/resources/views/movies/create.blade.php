@@ -12,7 +12,7 @@
     {!! Form::open(['action'=>'MoviesController@store', 'method'=>'POST', 'enctype'=>'multipart/form-data']) !!}
         <div class="form-group">
             <!-- De labelnaam is title. De echte tekst word Title-->
-            {{Form::label('title', 'Title:')}}                                               
+            <b>{{Form::label('title', 'Title:')}}</b>                                               
 
             <!--
             |---------------------------------------------------------------------------------------
@@ -25,6 +25,7 @@
             {{Form::text('title', '',['class'=> 'form-control', 'placeholder'=>'Title'])}}
         </div>
 
+        <br>
         <div class="form-group">
             {{Form::label('genre', 'Action')}}                                               
             {{Form::checkbox('genre', 'Action',false)}}
@@ -100,12 +101,12 @@
         </div>
 
         <div class="form-group">
-            {{Form::label('score', 'Score:')}}                                               
+            <b>{{Form::label('score', 'Score:')}}</b>                                               
             {{Form::text('score', '',['class'=> 'form-control', 'placeholder'=>'Score'])}}
         </div>
 
         <div class="form-group">
-            {{Form::label('comments', 'Comments:')}}
+            <b>{{Form::label('comments', 'Comments:')}}</b>
             {{Form::textarea('comments', '',['id'=>'article-ckeditor','class'=> 'form-control', 'placeholder'=>'Write your comment...'])}}
         </div>
         
