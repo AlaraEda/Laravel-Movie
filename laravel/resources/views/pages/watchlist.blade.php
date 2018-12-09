@@ -2,6 +2,8 @@
 
 @section('content')
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -38,8 +40,26 @@
 
                     <br>
                     <br>
-                        <h3> Your WatchList </h3>
+                        <div class="row">
+                            <div class="col-sm">
+                                <h3> Your WatchList </h3>
+                            </div>
+                            <div class="col-s1">
+                            
+                                {!!Form::open(['action'=>'WatchlistController@search', 'method'=> 'POST', 'enctype'=> 'multipart/form-data'])!!}
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons" name="search">
+                                    <label class="btn btn-dark" name="search">
+                                    <input type="text" placeholder="Search..." name="search" value='' id="option1" autocomplete="off" active>
+                                    </label>
+                                </div>
+                                
+                                <button class="btn btn-dark" type="submit"><i class="fa fa-search"></i></button>
+                                {!! Form::close() !!}
+                            </div>
+                        </div>
 
+                        <br>
+                        
                         @if (count($names)>0)
                             <table class="table table-striped">
                                 

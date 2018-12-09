@@ -29,19 +29,22 @@
 
 Route::get('/', 'PagesController@index');                               //De functie "index" van de PagesController 
 
-
 //Overzicht
 Route::resource('/overzicht','MoviesController');                       //Alle Film-Namen
 Route::get('/overzicht', 'MoviesController@overzicht');
+Route::post('/overzicht/search', 'MoviesController@search');                      //search
 Route::post('/overzicht/{id}', ['uses' => 'MoviesController@flip']);    //flip-functie
 Route::post('/filter', 'MoviesController@overzicht');                   //filter
+
 
 //Route::resource('/genre','MoviesController');                         //Gecategoriseerd
 
 //Watchlist-Page
 Route::resource('/watchlist', 'WatchlistController');                   //Watchlist-page
 Route::get('/watchlist', 'WatchlistController@watchlist');
+Route::post('/watchlist/search', 'WatchlistController@search');                    //search
 Route::post('/watchlist/{id}', ['uses' => 'WatchlistController@flip']); //flip-functie
+
 
 //Shared List
 Route::get('/sharedlist','WatchlistController@shared');

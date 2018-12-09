@@ -7,6 +7,8 @@
 
 @section('content')
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
   <div class="row justify-content-center">
     <div class="col">
       <h1>Overzicht Watched Movies <a class="btn btn-light" href="/overzicht/create" role="button">Create</a></h1>
@@ -119,21 +121,34 @@
       </div>
       <button class="btn btn-light" type="submit">Search</button>
     {!! Form::close() !!}
+    </div>
+    <br>
+    <br>
 
-    <br><br><br>
-  
+    <div class="row justify-content-center">
       <div class="card bg-light mb-3">                                        <!-- Card in de vrijgemaakte col stoppen -->
-        <div class="card-header text-white bg-dark mb-3"></div>                                         <!-- Card name -->
+        <div class="card-header text-white bg-dark mb-3">
+          <center>
+            {!!Form::open(['action'=>'MoviesController@search', 'method'=> 'POST', 'enctype'=> 'multipart/form-data'])!!}
+              <div class="btn-group btn-group-toggle" data-toggle="buttons" name="search">
+                  <label class="btn btn-dark" name="search">
+                  <input type="text" placeholder="Search..." name="search" value='' id="option1" autocomplete="off" active>
+                  </label>
+              </div>
+              
+            <button class="btn btn-dark" type="submit"><i class="fa fa-search"></i></button>
+            {!! Form::close() !!}
+          </center>
+        </div>                                         <!-- Card name -->
         <div class="card-body">                                                                         <!-- De meegegeven variabele in controller -->
-          
-          <div class="row">
+
             <table class="table table-borderless">
               <thead></thead>
               <tbody>
                 @foreach($movies as $movie)   
                 <tr>
                   <td scope="row"> 
-                      {!!Form::open(['action'=>['MoviesController@flip', $movie->id], 'method'=> 'POST', 'enctype'=> 'multipart/form-data'])!!}
+                    {!!Form::open(['action'=>['MoviesController@flip', $movie->id], 'method'=> 'POST', 'enctype'=> 'multipart/form-data'])!!}
                         {{Form::submit('Not Watched',['class'=> 'btn btn-dark'])}}
                     {!!Form::close()!!}    
                   </td>

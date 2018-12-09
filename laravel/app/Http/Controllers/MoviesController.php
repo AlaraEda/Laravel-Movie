@@ -56,6 +56,33 @@ class MoviesController extends Controller
         return view ("pages/overzicht")->with('movies', $movies);
     }
 
+    //Search-Bar
+    public function search(Request $request){
+        
+        $search = $request->input('search');
+        $user_id = auth()->user()->id;
+
+        if($search != ''){
+            
+            $movies = Movie::orderBy('title')
+            ->where('status', 'true')
+            ->where('user_id', $user_id)
+            ->where('title', 'like', $search.'%')
+            // ->orWhere('genre', 'like', $search.'%')
+            // ->orWhere('score', 'like', $search.'%')
+            // ->orWhere('comments', 'like', $search.'%')
+            ->get();
+
+        }else{
+            
+            //Als er niks is ingevuld
+            $movies = [];
+            
+        }
+
+        return view('pages/overzicht')->with('movies', $movies);
+    }
+
     //Flip Functie-Overzicht
     public function flip($id){
         $flip = Movie::find($id);                                               //Haal de gegevens op die gekoppeld staan aan de movie-id

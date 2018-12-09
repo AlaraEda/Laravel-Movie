@@ -37,6 +37,28 @@ class WatchlistController extends Controller
         return view('pages/watchlist')->with('names', $movies);                                                                             
     }
 
+    //Search-Bar van Watchlist
+    public function search(Request $request){
+        $search = $request->input('search');
+        $user_id = auth()->user()->id;
+
+        if($search != ''){
+
+            $movies = Movie::orderBy('title')
+            ->where('status', 'false')
+            ->where('user_id', $user_id)
+            ->where('title', 'like', $search.'%')
+            
+            ->get();
+
+        }else{
+            $movies = [];
+        }
+
+        return view('pages/watchlist')->with('names', $movies);
+    }
+
+
     //Sharing the Watchlist-page
     public function shared(){
 
@@ -130,7 +152,7 @@ class WatchlistController extends Controller
         //Validatie -->Zijn alle velden ingevuld?
         $this ->validate($request,[                                          //In de array staan de regels waar de form zich aan moet houden.
             'title' => 'required',
-            'genre'=> 'required'    
+               
         ]);
 
         //Create-Post
