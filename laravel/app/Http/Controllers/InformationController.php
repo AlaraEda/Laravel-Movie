@@ -8,7 +8,7 @@ use App\Movie;                              //Zodat Movie.php gebruikt wordt
 use App\User;                               //Zodat Movie.php gebruikt wordt
 use DB;                                     //SQL word gebruikt inplaats van Eloquent
 
-class InformatieController extends Controller
+class InformationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,14 +19,28 @@ class InformatieController extends Controller
     //Tabel
     public function index()
     {
-        $movies = Movie::orderBy('created_at','desc')->paginate(10);           //Maar 10 movies per pagina.
+        $users = User::orderBy('name','desc')->paginate(10);           //Maar 10 movies per pagina.
         
-        //Pas dit aan
-        return view('pages/list')->with('movies', $movies);
+        return view('pages/information')->with('users', $users);
     }
 
+    public function indexSearch(Request $request){
+        $search = $request->input('search');
+
+        if($search != ''){
+
+            $users = User::orderBy('name')
+            ->where('name', 'like', $search.'%')
+            ->orWhere('email', 'like', $search.'%')
+            ->get();
+
+        }else{
+            $users = [];
+        }
+        return view('pages/information')->with('users', $users);
+    }
     //Search-Bar van Tabel
-    public function search(Request $request){
+    public function Search(Request $request){
         $search = $request->input('search');
 
         if($search != ''){
@@ -37,16 +51,40 @@ class InformatieController extends Controller
             ->orWhere('score', 'like', $search.'%')
             ->orWhere('comments', 'like', $search.'%')
             
-            ->join('users', 'users.id', "=", "movies.user_id")
-            ->orWhere('users.name', 'like', $search.'%')
+            // ->join('users', 'users.id', "=", "movies.user_id")
+            // ->orWhere('users.name', 'like', $search.'%')
             ->get();
 
         }else{
             $movies = [];
         }
 
-        return view('pages/list')->with('movies', $movies);
+        return view('information/show')->with('movies', $movies);
     }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+    */
+    public function show($id)
+    {
+        /*Dus wanneer je/movie/1 schrijft bij je url krijg 
+        je alle posts gegevens die gelinkt staan aan de persoon met id=1 */
+        //$movies = Movie::find($id);                                               //Vind Post doormiddel van ID
+        
+        $movies = Movie::orderBy('title')
+        
+        ->where('user_id', '=', $id)
+        
+        ->get();
+
+        return view('information/show')->with('movies', $movies);  
+        
+
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -55,7 +93,7 @@ class InformatieController extends Controller
      */
     public function create()
     {
-        return view('informatie/create'); 
+        return view('information/create'); 
     }
 
     /**
@@ -115,18 +153,7 @@ class InformatieController extends Controller
 
         $movie->save();                                                      //Save de gegevens van de nieuwe movie in database
 
-        return redirect('/informatie')->with('success', 'Movie Added');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return redirect('/information')->with('success', 'Movie Added');
     }
 
     /**
@@ -139,7 +166,7 @@ class InformatieController extends Controller
     {
         $Movie = Movie::find($id);
 
-        return view('informatie/edit')->with('movies', $Movie);                     //Word doorgestuurd naar de Edit url van movie met de oude data
+        return view('information/edit')->with('movies', $Movie);                     //Word doorgestuurd naar de Edit url van movie met de oude data
     }
 
     /**
@@ -166,7 +193,7 @@ class InformatieController extends Controller
         
         $movie -> save();                                                       //Save de gegevens van de nieuwe post in de database
 
-        return redirect('/informatie')->with('success', 'Movie Updated');        //Doorgestuurd naar /Overzicht met de succes-message
+        return redirect('/information')->with('success', 'Movie Updated');        //Doorgestuurd naar /Overzicht met de succes-message
 
     }
 
@@ -180,12 +207,12 @@ class InformatieController extends Controller
     {
         $movie = Movie::find($id);                                              //Find the post met post-id
         
-        if(auth()->user()->id !=$movie->user_id){                               //Als user_id niet hetzelfde is als post_id (anders kunnen andere mensen je post deleten)
-            return redirect('/')->with('error', 'Unauthorized Page');           //Redirect naar /home met error message.
-        }
+        // if(auth()->user()->id !=$movie->user_id){                               //Als user_id niet hetzelfde is als post_id (anders kunnen andere mensen je post deleten)
+        //     return redirect('/')->with('error', 'Unauthorized Page');           //Redirect naar /home met error message.
+        // }
 
         $movie->delete();
-        return redirect('/informatie')->with('success', 'Movie Removed');    
+        return redirect('/information')->with('success', 'Movie Removed');    
     
     }
 }

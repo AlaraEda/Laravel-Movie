@@ -58,7 +58,7 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/informatie">Tabel-Films</a>
+                        <a class="dropdown-item" href="/information">All Made Users</a>
                         {{-- <a class="dropdown-item" href="#">Instellingen</a> --}}
 
                         <!-- Log-out Button -->

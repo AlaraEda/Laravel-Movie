@@ -51,8 +51,15 @@ Route::get('/sharedlist','WatchlistController@shared');
 
 //Admin-page
 Route::group(['middleware'=> ['auth','admin']], function(){             //Achter je route zit een middleware achter. 
-    Route::resource('informatie','InformatieController');               //Tabel-Pagina
-    Route::post('/informatie/search', 'InformatieController@search');
+    Route::resource('information','InformationController');               //Informatie-Pagina --> Tabel-Pagina
+    
+    
+    Route::get('/information/{id}', ['uses' => 'InformationController@show']);
+
+    Route::get('/information/{id}/search', 'InformationController@Search');
+    //Route::post('/information/{id}/search', 'InformationController@Search');
+
+    Route::post('/information/search', 'InformationController@indexSearch');  
 });
 
 Auth::routes();                                                         //Automatisch gekomen bij de download (php artisan route:list)
