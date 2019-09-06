@@ -32,5 +32,5 @@ In other words... <br>
 <br>
 **So I created this website!**
 <br>
-A website where I can both collect all the movie-names of movies I would love to watch in the near future _**and**_ a collection of movies I have already watched, so I can re-see it if I want to. If you want to use it on your localhost type in your terminator: php artisan serve.
+A website where I can both collect all the movie-names of movies I would love to watch in the near future _**and**_ a collection of movies I have already watched, so I can re-see it if I want to. If you want to use it on your localhost type in your terminator: php artisan serve. And start Xampp. 
 
